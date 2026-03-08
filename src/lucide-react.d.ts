@@ -38,4 +38,7 @@ declare module "lucide-react" {
   export const Image: Icon;
   export const Maximize2: Icon;
   export const Instagram: Icon;
+  export const Ruler: Icon;
+  export const Scale: Icon;
+  export const MessageSquare: Icon;
 }

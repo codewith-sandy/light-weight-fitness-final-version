@@ -2,18 +2,39 @@
 
 import { motion } from "framer-motion";
 import { BMICategory } from "@/lib/bmi";
-import { ArrowRight, Flame, Dumbbell, Apple, Activity } from "lucide-react";
+import { ArrowRight, Flame, Dumbbell, Apple, Activity, MessageSquare } from "lucide-react";
+import { useRef } from "react";
+import Link from "next/link";
 
 type DashboardProps = {
   name: string;
+  age: number;
   bmi: number;
   category: BMICategory;
+  bmiPrime: number;
+  ponderalIndex: number;
+  gender: string;
+  goal: string;
 };
 
-export function Dashboard({ name, bmi, category }: DashboardProps) {
+export function Dashboard({ name, age, bmi, category, bmiPrime, ponderalIndex, gender, goal }: DashboardProps) {
+  const protocolRef = useRef<HTMLDivElement>(null);
+
+  const scrollToProtocol = () => {
+    protocolRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   const getCategoryConfig = (cat: BMICategory) => {
+    const baseConfig = {
+      color: "text-[#E50914]",
+      bgAccent: "from-[#E50914]/20",
+    };
+
     switch (cat) {
-      case "Underweight":
+      case "Severe Thinness":
+      case "Moderate Thinness":
+      case "Mild Thinness":
+      case "Underweight (Child/Teen)":
         return {
           title: "Muscle & Mass Focus",
           icon: Dumbbell,
@@ -22,8 +43,24 @@ export function Dashboard({ name, bmi, category }: DashboardProps) {
           workout: "Hypertrophy & Strength Training. 4-5 days/week targeting major muscle groups with heavy compound movements.",
           diet: "Caloric Surplus (+500 kcal). High protein, moderate carbs, healthy fats. Frequent meals.",
           quote: "Build the foundation. Every rep counts towards your new structure.",
+          detailedDiet: [
+            "Meal 1: 4 Large Eggs + 100g Oats + 1 Banana",
+            "Meal 2: 200g Chicken Breast + 150g Brown Rice + Broccoli",
+            "Meal 3: Whey Protein + 50g Almonds",
+            "Meal 4: 200g Fish/Steak + 200g Sweet Potato + Asparagus",
+            "Pre-Sleep: Casein Protein or 200g Cottage Cheese"
+          ],
+          detailedWorkout: [
+            "Mon: Chest & Triceps (Heavy Compounds)",
+            "Tue: Back & Biceps (Deadlifts focus)",
+            "Wed: Active Recovery (Walking/Mobility)",
+            "Thu: Legs (Squats 5x5)",
+            "Fri: Shoulders & Abs",
+            "Sat: Weak Point Focus / Accessory Work"
+          ]
         };
-      case "Normal":
+      case "Normal weight":
+      case "Healthy weight (Child/Teen)":
         return {
           title: "Balanced Performance",
           icon: Activity,
@@ -32,8 +69,25 @@ export function Dashboard({ name, bmi, category }: DashboardProps) {
           workout: "Hybrid Training. Mix of strength (3 days) and conditioning/cardio (2 days).",
           diet: "Maintenance Calories. Balanced macros (40P/40C/20F) to fuel performance and recovery.",
           quote: "Maintain the engine. Optimize for function, power, and longevity.",
+          detailedDiet: [
+            "Meal 1: Greek Yogurt + Granola + Berries",
+            "Meal 2: Grilled Chicken Salad + Quinoa",
+            "Snack: Apple + Peanut Butter",
+            "Meal 3: Baked Salmon + Whole Wheat Pasta + Spinach",
+            "Hydration: 3-4L Water daily"
+          ],
+          detailedWorkout: [
+            "Mon: Strength (Upper Body)",
+            "Tue: HIIT Conditioning (30 mins)",
+            "Wed: Strength (Lower Body)",
+            "Thu: Active Recovery",
+            "Fri: Full Body Functional Movement",
+            "Sat: Outdoor Activity or Sports"
+          ]
         };
       case "Overweight":
+      case "At risk of overweight (Child/Teen)":
+      case "Overweight (Child/Teen)":
         return {
           title: "Fat Loss & Conditioning",
           icon: Flame,
@@ -42,8 +96,23 @@ export function Dashboard({ name, bmi, category }: DashboardProps) {
           workout: "HIIT & Full Body Resistance. 4 days/week focusing on metabolic conditioning and retaining muscle.",
           diet: "Caloric Deficit (-500 kcal). High protein to retain mass, lower carbs, moderate fats.",
           quote: "Ignite the furnace. Consistency beats intensity when reshaping your body.",
+          detailedDiet: [
+            "Meal 1: Scrambled Egg Whites + Spinach + Coffee",
+            "Meal 2: Tuna Salad (no mayo) + Celery Sticks",
+            "Meal 3: 150g Lean Turkey + Large Mixed Green Salad",
+            "Snack: 0% Fat Greek Yogurt",
+            "Meal 4: Grilled White Fish + Steamed Green Beans"
+          ],
+          detailedWorkout: [
+            "Session A: 45 min Weight Training + 15 min Stairmaster",
+            "Session B: HIIT Circuit (Battling ropes, Burpees, Sprints)",
+            "Session C: LISS Cardio (60 min Fasted Walk)",
+            "Weekly Goal: 10,000 steps minimum daily"
+          ]
         };
-      case "Obese":
+      case "Obese Class I":
+      case "Obese Class II":
+      case "Obese Class III":
         return {
           title: "Transformation Protocol",
           icon: Apple,
@@ -52,6 +121,31 @@ export function Dashboard({ name, bmi, category }: DashboardProps) {
           workout: "Low-Impact Cardio & Core Stability. Daily walking, swimming, or cycling plus light resistance.",
           diet: "Strict Caloric Deficit. Focus on whole foods, eliminating liquid calories, high protein/fiber for satiety.",
           quote: "The journey of a thousand miles begins with a single step. We start today.",
+          detailedDiet: [
+            "Morning: Warm Lemon Water + Fasted Walk",
+            "Breakfast: Omelette with unlimited Peppers/Onions",
+            "Lunch: Lentil Soup or Vegetable Stir-fry with Tofu",
+            "Dinner: Steamed Chicken + Cauliflower Rice",
+            "Rule: No Sugary Drinks, No Processed Snacks"
+          ],
+          detailedWorkout: [
+            "Daily: 30-45 min Brisk Walk (Power Walking)",
+            "Tue/Thu: Bodyweight Movements (Assisted Squats, Wall Push-ups)",
+            "Sat: Swimming or Water Aerobics",
+            "Focus: Mobility, Heart Health, and Consistency"
+          ]
+        };
+      default:
+        return {
+          title: "General Fitness",
+          icon: Activity,
+          color: "text-[#E50914]",
+          bgAccent: "from-[#E50914]/20",
+          workout: "Stay active and maintain your health through consistent exercise.",
+          diet: "Balanced nutrition focusing on whole foods and hydration.",
+          quote: "Your fitness journey is a lifelong commitment to health.",
+          detailedDiet: ["Balanced meals focusing on portion control."],
+          detailedWorkout: ["30 minutes of moderate activity 5 days a week."]
         };
     }
   };
@@ -91,14 +185,26 @@ export function Dashboard({ name, bmi, category }: DashboardProps) {
           
           <div className="mb-8">
             <p className="text-sm text-[#B3B3B3] mb-1">Your BMI</p>
-            <p className="font-bebas-neue text-7xl tracking-tighter">{bmi}</p>
+            <p className="font-bebas-neue text-7xl tracking-tighter">{bmi.toFixed(2)}</p>
           </div>
 
           <div>
-            <p className="text-sm text-[#B3B3B3] mb-1">Category</p>
             <p className={`font-bebas-neue text-4xl uppercase tracking-wide ${config.color}`}>
               {category}
             </p>
+          </div>
+
+          <div className="mt-8 pt-8 border-t border-white/10 grid grid-cols-2 gap-4">
+             <div>
+                <p className="text-[10px] uppercase tracking-widest text-[#B3B3B3] mb-1">BMI Prime</p>
+                <p className="font-bebas-neue text-3xl">{bmiPrime.toFixed(2)}</p>
+                <p className="text-[9px] text-white/40 leading-tight mt-1">Ratio of BMI to normal upper limit (25.0)</p>
+             </div>
+             <div>
+                <p className="text-[10px] uppercase tracking-widest text-[#B3B3B3] mb-1">Ponderal Index</p>
+                <p className="font-bebas-neue text-3xl">{ponderalIndex.toFixed(2)}</p>
+                <p className="text-[9px] text-white/40 leading-tight mt-1">Enhanced leanness measure for extreme heights</p>
+             </div>
           </div>
         </motion.div>
 
@@ -145,11 +251,78 @@ export function Dashboard({ name, bmi, category }: DashboardProps) {
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className={`w-full group flex items-center justify-center gap-3 bg-white text-black px-8 py-5 rounded font-bold text-lg tracking-wide uppercase transition-all`}
+            onClick={scrollToProtocol}
+            className={`w-full group flex items-center justify-center gap-3 bg-white text-black px-8 py-5 rounded font-bold text-lg tracking-wide uppercase transition-all shadow-[0_10px_30px_rgba(255,255,255,0.1)]`}
           >
             Start Your Protocol
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </motion.button>
+
+          {/* Full Protocol Detailed Sections */}
+          <div ref={protocolRef} className="pt-8 space-y-8 scroll-mt-24">
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Detailed Diet */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="bg-[#1A1A1A] border border-white/10 p-8 rounded-xl"
+                >
+                  <h3 className="font-bebas-neue text-3xl mb-6 text-white tracking-wide border-b border-[#E50914] pb-2 inline-block">Daily Meal Plan</h3>
+                  <ul className="space-y-4">
+                    {config.detailedDiet.map((item, idx) => (
+                      <li key={idx} className="flex gap-3 text-[#B3B3B3] text-sm">
+                        <span className="text-[#E50914] font-bold">»</span> {item}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+
+                {/* Detailed Workout */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                  className="bg-[#1A1A1A] border border-white/10 p-8 rounded-xl"
+                >
+                  <h3 className="font-bebas-neue text-3xl mb-6 text-white tracking-wide border-b border-[#E50914] pb-2 inline-block">Training Schedule</h3>
+                  <ul className="space-y-4">
+                    {config.detailedWorkout.map((item, idx) => (
+                      <li key={idx} className="flex gap-3 text-[#B3B3B3] text-sm">
+                        <span className="text-[#E50914] font-bold">✓</span> {item}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+             </div>
+
+             {/* Personalization Context */}
+             <div className="bg-[#E50914]/10 border border-[#E50914]/20 p-6 rounded-xl text-center">
+                <p className="text-sm text-white/80">
+                  This protocol is optimized for your goal: <span className="text-[#E50914] font-bold uppercase">{goal}</span>. 
+                  Calculated based on a <span className="font-bold">{gender}</span> physiology.
+                </p>
+             </div>
+
+             {/* Call to Action: Gym Owner */}
+             <motion.div 
+               whileHover={{ y: -5 }}
+               className="bg-gradient-to-r from-[#1A1A1A] to-[#252525] border border-white/10 p-10 rounded-xl text-center shadow-2xl relative overflow-hidden"
+             >
+               <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl pointer-events-none" />
+               <h2 className="font-bebas-neue text-5xl mb-4 text-white uppercase tracking-tight">Need Expert Guidance?</h2>
+               <p className="text-[#B3B3B3] max-w-2xl mx-auto mb-8">
+                 The "Light Weight Fitness Gym" owner and master trainers are ready to help you push past your plateaus and achieve your dream physique. Get personalized coaching today.
+               </p>
+               <Link 
+                 href="/contact" 
+                 className="inline-flex items-center gap-3 bg-[#E50914] text-white px-10 py-5 rounded font-black text-lg tracking-widest uppercase hover:bg-[#b80710] transition-all shadow-[0_0_20px_rgba(229,9,20,0.5)]"
+               >
+                 <MessageSquare className="w-6 h-6" /> Contact Gym Owner
+               </Link>
+             </motion.div>
+          </div>
         </motion.div>
       </div>
 
