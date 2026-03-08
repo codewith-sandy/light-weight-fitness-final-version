@@ -11,6 +11,8 @@ import {
   Utensils, 
   CreditCard, 
   Phone,
+  Image as ImageIcon,
+  Instagram,
   Menu,
   X
 } from "lucide-react";
@@ -22,6 +24,8 @@ const menuItems = [
   { icon: MapPin, label: "Branches", href: "/branches" },
   { icon: Utensils, label: "Diet Plans", href: "/diet-plans" },
   { icon: CreditCard, label: "Membership", href: "/membership" },
+  { icon: ImageIcon, label: "Gallery", href: "/gallery" },
+  { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/lightweight_fitness_gym?igsh=eGN3eDRpa2FjMnds", external: true },
   { icon: Phone, label: "Contact", href: "/contact" },
 ];
 
@@ -79,7 +83,11 @@ export function Sidebar() {
             const isActive = pathname === item.href;
 
             return (
-              <Link key={item.href} href={item.href}>
+              <Link 
+                key={item.href} 
+                href={item.href}
+                {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              >
                 <div
                   className={cn(
                     "flex items-center gap-4 px-3 py-3 rounded-md transition-all duration-200 cursor-pointer overflow-hidden whitespace-nowrap",

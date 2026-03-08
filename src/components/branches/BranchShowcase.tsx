@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { PlayCircle, MapPin, ArrowRight } from "lucide-react";
 
 export function BranchShowcase() {
@@ -69,11 +70,11 @@ export function BranchShowcase() {
               
               <h3 className="font-bebas-neue text-4xl tracking-wide uppercase mb-3">{branch.name}</h3>
               <p className="text-[#E50914] text-[13px] uppercase tracking-widest font-semibold mb-4">{branch.highlight}</p>
-              <p className="text-[#B3B3B3] leading-relaxed mb-8">{branch.description}</p>
-              
-              <button className="flex items-center gap-2 text-white font-semibold uppercase tracking-wider text-sm group/btn">
-                View Gallery <ArrowRight className="w-4 h-4 text-[#E50914] group-hover/btn:translate-x-1 transition-transform" />
-              </button>
+              <Link href="/gallery">
+                <button className="flex items-center gap-2 text-white font-semibold uppercase tracking-wider text-sm group/btn">
+                  View Gallery <ArrowRight className="w-4 h-4 text-[#E50914] group-hover/btn:translate-x-1 transition-transform" />
+                </button>
+              </Link>
             </div>
             
             <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#E50914] to-transparent scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500" />

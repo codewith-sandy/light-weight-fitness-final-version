@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
+import { Mail, Phone, MapPin, ArrowRight, Instagram } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 type ContactFormData = {
@@ -45,6 +45,22 @@ export function ContactPageContent() {
           >
             Have a question or want to visit us? Drop us a message or find our branches below.
           </motion.p>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2 }}
+            className="mt-8 flex justify-center gap-4"
+          >
+            <a 
+              href="https://www.instagram.com/lightweight_fitness_gym?igsh=eGN3eDRpa2FjMnds" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 bg-[#E50914]/10 border border-[#E50914]/30 hover:bg-[#E50914] hover:text-black text-[#E50914] px-6 py-2 rounded-full transition-all duration-300 font-bold uppercase tracking-widest text-sm group"
+            >
+              <Instagram className="w-5 h-5 transition-transform group-hover:scale-110" />
+              Follow on Instagram
+            </a>
+          </motion.div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
