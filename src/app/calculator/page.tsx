@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { calculateBMI, UnitSystem } from "@/lib/bmi";
 import { ArrowLeft, Ruler, Scale } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 
 type BMIFormData = {
   name: string;
@@ -21,7 +21,7 @@ type BMIFormData = {
   goal: string;
 };
 
-export default function CalculatorPage() {
+function CalculatorForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTarget = searchParams.get("redirect");
@@ -322,5 +322,17 @@ export default function CalculatorPage() {
         </form>
       </motion.div>
     </div>
+  );
+}
+
+export default function CalculatorPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#0F0F0F] flex items-center justify-center">
+        <div className="text-[#E50914] font-bebas-neue text-2xl animate-pulse">Initializing Protocol...</div>
+      </div>
+    }>
+      <CalculatorForm />
+    </Suspense>
   );
 }
