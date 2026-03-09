@@ -98,14 +98,15 @@ export function LandingPage() {
               </motion.button>
             </Link>
 
-            <motion.a
-              href="tel:+918668163718"
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
-              whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto flex items-center justify-center gap-3 bg-black/40 backdrop-blur-md border border-white/20 text-white px-10 py-4 rounded-lg font-bold text-[14px] tracking-[0.2em] uppercase transition-all"
-            >
-              Call Now
-            </motion.a>
+            <Link href="/contact" passHref className="w-full sm:w-auto">
+              <motion.button
+                whileHover={{ scale: 1.05, backgroundColor: "rgba(229,9,20,0.1)" }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full sm:w-auto flex items-center justify-center gap-3 bg-white/5 backdrop-blur-md border border-white/20 text-white px-10 py-4 rounded-lg font-bold text-[14px] tracking-[0.2em] uppercase transition-all hover:bg-white hover:text-black"
+              >
+                Join Now
+              </motion.button>
+            </Link>
           </div>
 
           <Link href="/success-stories" passHref className="w-full sm:w-auto mt-2">

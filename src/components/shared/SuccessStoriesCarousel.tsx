@@ -43,7 +43,7 @@ const stories = [
     name: "Transformation 5",
     duration: "3 Months",
     quote: "Hard work pays off. The program was challenging but rewarding.",
-    image: "/photos/transformation/trans 5", // Assuming no extension or handled by server
+    image: "/photos/transformation/trans 5.jpg", // Added .jpg extension
     category: "General Fitness",
   },
   {
@@ -51,7 +51,7 @@ const stories = [
     name: "Transformation 6",
     duration: "12 Months",
     quote: "A year of dedication turned into the best shape of my life.",
-    image: "/photos/transformation/tans 6.jpg",
+    image: "/photos/transformation/trans 6.jpg", // Fixed typo tans -> trans
     category: "Athlete Prep",
   },
   {
@@ -117,13 +117,16 @@ export function SuccessStoriesCarousel() {
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="bg-[#1A1A1A] border border-white/10 rounded-2xl overflow-hidden shadow-2xl"
         >
-          <div className="flex flex-col md:flex-row min-h-[450px]">
+          <div className="flex flex-col lg:flex-row min-h-[450px]">
 
             {/* Images Section */}
-            <div className="w-full md:w-1/2 relative bg-black">
-              <div
-                className="absolute inset-0 bg-cover bg-center transition-all duration-700 hover:scale-105"
+            <div className="w-full lg:w-1/2 h-[350px] lg:h-auto relative bg-black overflow-hidden">
+              <motion.div
+                className="absolute inset-0 bg-cover bg-center"
                 style={{ backgroundImage: `url('${story.image}')` }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 1.05 }}
+                transition={{ duration: 0.7 }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <div className="absolute bottom-6 left-6 flex gap-2">
@@ -132,7 +135,7 @@ export function SuccessStoriesCarousel() {
             </div>
 
             {/* Content Section */}
-            <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center relative bg-gradient-to-br from-[#1A1A1A] to-[#0F0F0F]">
+            <div className="w-full lg:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col justify-center relative bg-gradient-to-br from-[#1A1A1A] to-[#0F0F0F]">
               <Quote className="absolute top-8 right-8 w-16 h-16 text-white/5 rotate-180" />
 
               <div className="inline-block px-3 py-1 rounded border border-[#E50914]/30 text-[#E50914] text-xs uppercase tracking-widest font-semibold mb-6 w-fit">
@@ -155,14 +158,14 @@ export function SuccessStoriesCarousel() {
         {/* Controls */}
         <button
           onClick={handlePrev}
-          className="absolute left-0 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-[#E50914] text-white hover:text-black rounded-full flex items-center justify-center backdrop-blur transition-all border border-white/10 hover:border-transparent z-10 hidden lg:flex"
+          className="absolute left-0 md:left-4 top-[175px] lg:top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-[#E50914] text-white hover:text-black rounded-full flex items-center justify-center backdrop-blur transition-all border border-white/10 hover:border-transparent z-10 hidden md:flex"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
 
         <button
           onClick={handleNext}
-          className="absolute right-0 md:right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-[#E50914] text-white hover:text-black rounded-full flex items-center justify-center backdrop-blur transition-all border border-white/10 hover:border-transparent z-10 hidden lg:flex"
+          className="absolute right-0 md:right-4 top-[175px] lg:top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-[#E50914] text-white hover:text-black rounded-full flex items-center justify-center backdrop-blur transition-all border border-white/10 hover:border-transparent z-10 hidden md:flex"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
@@ -201,13 +204,16 @@ export function SuccessStoriesCarousel() {
               onClick={() => setCurrentIndex(idx)}
             >
               <div className="aspect-[4/5] relative">
-                <div
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
+                <motion.div
+                  className="absolute inset-0 bg-cover bg-center grayscale md:grayscale"
                   style={{ backgroundImage: `url('${item.image}')` }}
+                  whileHover={{ scale: 1.1, filter: "grayscale(0%)" }}
+                  whileTap={{ scale: 1.1, filter: "grayscale(0%)" }}
+                  transition={{ duration: 0.7 }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 pointer-events-none" />
 
-                <div className="absolute bottom-4 left-4 right-4 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                <div className="absolute bottom-4 left-4 right-4 translate-y-2 group-hover:translate-y-0 transition-transform duration-300 pointer-events-none">
                   <p className="text-[#E50914] text-[10px] uppercase tracking-widest font-black mb-1">{item.category}</p>
                   <h4 className="font-bebas-neue text-2xl tracking-wide uppercase">{item.name}</h4>
                   <p className="text-white/60 text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">{item.duration} Transformation</p>

@@ -10,7 +10,7 @@ export function CallToAction() {
       <section className="relative py-24 px-6 overflow-hidden">
         {/* Background with overlay */}
         <div className="absolute inset-0 z-0">
-          <div 
+          <div
             className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center bg-fixed opacity-30 grayscale"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-[#0F0F0F]/80 to-[#0F0F0F]" />
@@ -24,24 +24,26 @@ export function CallToAction() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="font-bebas-neue text-6xl md:text-8xl tracking-tight uppercase leading-none mb-6">
-              Start Today. <br/>
+              Start Today. <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E50914] to-white">No Excuses.</span>
             </h2>
-            
+
             <p className="text-lg md:text-xl text-[#B3B3B3] mb-10 max-w-2xl mx-auto font-light">
               Your transformation begins with a single step. Take it now. Transform your body, transform your life. Your premium fitness destination.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-full sm:w-auto flex items-center justify-center gap-3 bg-[#E50914] text-white hover:bg-[#b80710] px-8 py-4 rounded font-bold text-[15px] tracking-wide uppercase transition-all shadow-[0_0_20px_rgba(229,9,20,0.3)]"
-              >
-                Join Now
-                <ArrowRight className="w-5 h-5" />
-              </motion.button>
-              
+              <Link href="/contact" className="w-full sm:w-auto">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-full sm:w-auto flex items-center justify-center gap-3 bg-[#E50914] text-white hover:bg-[#b80710] px-8 py-4 rounded font-bold text-[15px] tracking-wide uppercase transition-all shadow-[0_0_20px_rgba(229,9,20,0.3)]"
+                >
+                  Join Now
+                  <ArrowRight className="w-5 h-5" />
+                </motion.button>
+              </Link>
+
               <motion.a
                 href="tel:+918668163718"
                 whileHover={{ scale: 1.05 }}
@@ -117,7 +119,7 @@ export function CallToAction() {
               </li>
               <li className="flex items-center gap-4 hover:text-white transition-colors group">
                 <Clock className="w-5 h-5 text-[#E50914] shrink-0 group-hover:scale-110 transition-transform" />
-                <span className="text-[#B3B3B3] text-sm">Mon - Sat: 5:00 AM - 10:00 PM <br/> Sunday: 6:00 AM - 12:00 PM</span>
+                <span className="text-[#B3B3B3] text-sm">Mon - Sat: 5:00 AM - 10:00 PM <br /> Sunday: 6:00 AM - 12:00 PM</span>
               </li>
             </ul>
           </div>
@@ -126,7 +128,7 @@ export function CallToAction() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between border-t border-white/10 pt-8 gap-4">
           <p className="text-[#B3B3B3] text-sm">© 2026 Light Weight Fitness Gym. All rights reserved.</p>
           <p className="text-[#B3B3B3] text-sm flex items-center gap-1">
-            Engineered with precision by 
+            Engineered with precision by
             <a href="https://github.com/codewith-sandy" target="_blank" rel="noopener noreferrer" className="text-[#E50914] font-semibold hover:underline">
               CodeWith-Sandy
             </a>
