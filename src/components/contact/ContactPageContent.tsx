@@ -1,8 +1,10 @@
 "use client";
 
+import { useState, useEffect, Suspense } from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, ArrowRight, Instagram } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { useSearchParams } from "next/navigation";
 
 type ContactFormData = {
   name: string;
@@ -14,22 +16,110 @@ type ContactFormData = {
 };
 
 export function ContactPageContent() {
+  return (
+    <Suspense fallback={<div className="min-h-screen animate-pulse bg-black" />}>
+      <ContactForm />
+    </Suspense>
+  );
+}
+
+function ContactForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const searchParams = useSearchParams();
   const { register, handleSubmit, reset } = useForm<ContactFormData>();
 
-  const onSubmit = (data: ContactFormData) => {
-    console.log("Form submission data:", data);
-    // You can connect this to an API endpoint or Firebase later
-    alert("Message sent successfully! We will get back to you shortly.");
-    reset();
+  useEffect(() => {
+    // 1. Handle URL Plan Parameter
+    const planParam = searchParams.get("plan");
+    const planMap: { [key: string]: string } = {
+      monthly: "Monthly Plan – ₹1000 +GST/month",
+      quarterly: "Quarterly Plan – ₹2400 +GST/3 months",
+      annual: "Annual Plan – ₹8000 +GST/year",
+    };
+
+    let initialValues: Partial<ContactFormData> = {};
+
+    if (planParam && planMap[planParam.toLowerCase()]) {
+      initialValues.plan = planMap[planParam.toLowerCase()];
+    }
+
+    // 2. Handle Persistent BMI & Profile Data
+    const savedProfile = localStorage.getItem("userProfileData");
+    const savedBmi = localStorage.getItem("userBmiData");
+
+    if (savedProfile) {
+      const profile = JSON.parse(savedProfile);
+      initialValues.name = profile.name;
+      initialValues.email = profile.email;
+      initialValues.phone = profile.phone;
+    }
+
+    if (savedBmi) {
+      const bmiData = JSON.parse(savedBmi);
+      initialValues.message = `Hi! I just used your BMI calculator. My result was ${bmiData.bmi.toFixed(1)} (${bmiData.category}). I'm interested in starting the ${initialValues.plan || "gym"} with my goal of ${bmiData.goal}!`;
+    }
+
+    // Apply all pre-filled values
+    if (Object.keys(initialValues).length > 0) {
+      reset(initialValues);
+    }
+  }, [searchParams, reset]);
+
+  const onSubmit = async (data: ContactFormData) => {
+    setIsSubmitting(true);
+
+    try {
+      const addonsText = data.addOns && data.addOns.length > 0
+        ? `<p><strong>Add-Ons:</strong> ${data.addOns.join(", ")}</p>`
+        : "";
+
+      const messageText = data.message ? `<p><strong>Message:</strong> ${data.message}</p>` : "";
+
+      const accessKey = "YOUR_WEB3FORMS_ACCESS_KEY_HERE"; // IMPORTANT: Replace with actual key
+
+      const emailBody = `
+        <h2>New General Inquiry!</h2>
+        <p><strong>Name:</strong> ${data.name}</p>
+        <p><strong>Phone:</strong> ${data.phone}</p>
+        <p><strong>Email:</strong> ${data.email}</p>
+        <p><strong>Interested Plan:</strong> ${data.plan}</p>
+        ${addonsText}
+        ${messageText}
+      `;
+
+      try {
+        await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            access_key: accessKey,
+            subject: "New General Inquiry - Light Weight Gym",
+            from_name: "Gym App System",
+            email: data.email,
+            message: emailBody,
+          }),
+        });
+      } catch (err) {
+        console.error("Failed to send silent lead notification:", err);
+      }
+
+      alert("Message sent successfully! We will get back to you shortly.");
+      reset();
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="min-h-screen py-32 px-6">
       <div className="max-w-7xl mx-auto">
-        
+
         {/* Header */}
         <div className="text-center mb-16">
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="font-bebas-neue text-5xl md:text-7xl tracking-wide uppercase mb-4"
@@ -37,7 +127,7 @@ export function ContactPageContent() {
             Get In <span className="text-[#E50914]">Touch</span>
           </motion.h1>
           <div className="w-24 h-1 bg-[#E50914] mx-auto mb-6" />
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -51,9 +141,9 @@ export function ContactPageContent() {
             transition={{ delay: 0.2 }}
             className="mt-8 flex justify-center gap-4"
           >
-            <a 
-              href="https://www.instagram.com/lightweight_fitness_gym?igsh=eGN3eDRpa2FjMnds" 
-              target="_blank" 
+            <a
+              href="https://www.instagram.com/lightweight_fitness_gym?igsh=eGN3eDRpa2FjMnds"
+              target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 bg-[#E50914]/10 border border-[#E50914]/30 hover:bg-[#E50914] hover:text-black text-[#E50914] px-6 py-2 rounded-full transition-all duration-300 font-bold uppercase tracking-widest text-sm group"
             >
@@ -64,7 +154,7 @@ export function ContactPageContent() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          
+
           {/* Left Column: Form */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -75,7 +165,7 @@ export function ContactPageContent() {
             <h2 className="font-bebas-neue text-3xl tracking-wide uppercase mb-6 flex items-center gap-3">
               <Mail className="text-[#E50914] w-6 h-6" /> Send a Message
             </h2>
-            
+
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div className="space-y-2">
                 <label className="text-xs uppercase tracking-widest text-[#B3B3B3] font-bold">Full Name</label>
@@ -123,12 +213,12 @@ export function ContactPageContent() {
                 <label className="text-xs uppercase tracking-widest text-[#B3B3B3] font-bold">Premium Add-Ons <span className="text-white/40 normal-case font-normal">(Optional)</span></label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
-                    "Personal Training", 
-                    "Custom Diet Plan", 
-                    "Progress Tracking", 
-                    "Shower Access", 
-                    "Supplements Package", 
-                    "Fitness Assessment", 
+                    "Personal Training",
+                    "Custom Diet Plan",
+                    "Progress Tracking",
+                    "Shower Access",
+                    "Supplements Package",
+                    "Fitness Assessment",
                     "Priority Booking"
                   ].map((addon) => (
                     <label key={addon} className="flex items-center gap-3 cursor-pointer group">
@@ -163,9 +253,18 @@ export function ContactPageContent() {
 
               <button
                 type="submit"
-                className="w-full bg-[#E50914] text-white hover:bg-[#b80710] px-6 py-4 rounded font-bold tracking-widest uppercase transition-all flex items-center justify-center gap-2"
+                disabled={isSubmitting}
+                className={`w-full text-white px-6 py-4 rounded font-bold tracking-widest uppercase transition-all flex items-center justify-center gap-2 ${isSubmitting ? "bg-white/10 cursor-not-allowed" : "bg-[#E50914] hover:bg-[#b80710]"
+                  }`}
               >
-                Send Message <ArrowRight className="w-4 h-4" />
+                {isSubmitting ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>Send Message <ArrowRight className="w-4 h-4" /></>
+                )}
               </button>
             </form>
           </motion.div>
@@ -183,24 +282,24 @@ export function ContactPageContent() {
 
             {/* Branch 1 */}
             <div className="bg-[#1A1A1A] border border-white/10 rounded-2xl overflow-hidden shadow-xl">
-              <div className="p-6 border-b border-white/10 flex justify-between items-start">
+              <div className="p-6 border-b border-white/10 flex justify-between items-start gap-4">
                 <div>
-                  <h3 className="font-bebas-neue text-2xl tracking-wide text-white">Branch 1 Title</h3>
-                  <p className="text-[#B3B3B3] text-sm mt-1 whitespace-pre-wrap">Replace with Branch 1 Address Details</p>
+                  <h3 className="font-bebas-neue text-2xl tracking-wide text-white">Branch 1: Veerapuram</h3>
+                  <p className="text-[#B3B3B3] text-sm mt-1 whitespace-pre-wrap leading-relaxed">Flat No-391, 1st Floor Veerapuram Main Road, Vellanore, Barathi Nagar,<br />Opposite to City Union Bank,<br />Tamil Nadu 600055</p>
                 </div>
-                <a href="tel:+918668163718" className="bg-white/5 hover:bg-white/10 p-3 rounded-full transition-colors">
+                <a href="tel:+918668163718" className="bg-white/5 hover:bg-white/10 p-3 rounded-full transition-colors flex-shrink-0">
                   <Phone className="w-5 h-5 text-[#E50914]" />
                 </a>
               </div>
               <div className="w-full h-[250px] bg-[#0F0F0F] relative">
                 {/* Embedded Map for Branch 1 (Placeholder - Replace src with User's URL) */}
-                <iframe 
+                <iframe
                   src="https://www.google.com/maps/embed?pb=" // <- Replace this later
-                  width="100%" 
-                  height="100%" 
-                  style={{ border: 0 }} 
-                  allowFullScreen={true} 
-                  loading="lazy" 
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen={true}
+                  loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   className="filter contrast-[1.1] grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
                 ></iframe>
@@ -208,25 +307,25 @@ export function ContactPageContent() {
             </div>
 
             {/* Branch 2 */}
-            <div className="bg-[#1A1A1A] border border-white/10 rounded-2xl overflow-hidden shadow-xl">
-              <div className="p-6 border-b border-white/10 flex justify-between items-start">
+            <div className="bg-[#1A1A1A] border border-white/10 rounded-2xl overflow-hidden shadow-xl mt-8">
+              <div className="p-6 border-b border-white/10 flex justify-between items-start gap-4">
                 <div>
-                  <h3 className="font-bebas-neue text-2xl tracking-wide text-white">Branch 2 Title</h3>
-                  <p className="text-[#B3B3B3] text-sm mt-1 whitespace-pre-wrap">Replace with Branch 2 Address Details</p>
+                  <h3 className="font-bebas-neue text-2xl tracking-wide text-white">Branch 2: Alamathi</h3>
+                  <p className="text-[#B3B3B3] text-sm mt-1 whitespace-pre-wrap leading-relaxed">Flat No.8, Golden Estate, Main St, <br />Vetrivel Nagar, Alamathi, Chennai, <br />Tamil Nadu 600062</p>
                 </div>
-                <a href="tel:+918668163718" className="bg-white/5 hover:bg-white/10 p-3 rounded-full transition-colors">
+                <a href="tel:+918668163718" className="bg-white/5 hover:bg-white/10 p-3 rounded-full transition-colors flex-shrink-0">
                   <Phone className="w-5 h-5 text-[#E50914]" />
                 </a>
               </div>
               <div className="w-full h-[250px] bg-[#0F0F0F] relative">
                 {/* Embedded Map for Branch 2 (Placeholder - Replace src with User's URL) */}
-                <iframe 
+                <iframe
                   src="https://www.google.com/maps/embed?pb=" // <- Replace this later
-                  width="100%" 
-                  height="100%" 
-                  style={{ border: 0 }} 
-                  allowFullScreen={true} 
-                  loading="lazy" 
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen={true}
+                  loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   className="filter contrast-[1.1] grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
                 ></iframe>

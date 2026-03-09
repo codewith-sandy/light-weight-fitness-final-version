@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { calculateBMI, UnitSystem } from "@/lib/bmi";
 import { ArrowLeft, Ruler, Scale } from "lucide-react";
 import Link from "next/link";
@@ -23,45 +23,104 @@ type BMIFormData = {
 
 export default function CalculatorPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTarget = searchParams.get("redirect");
+
   const [unitSystem, setUnitSystem] = useState<UnitSystem>("metric");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<BMIFormData>();
 
-  const onSubmit = (data: BMIFormData) => {
-    let finalWeight = data.weight;
-    let finalHeight = data.height;
+  const onSubmit = async (data: BMIFormData) => {
+    setIsSubmitting(true);
 
-    if (unitSystem === "us") {
-      // Convert ft/in to total inches
-      const ft = data.heightFt || 0;
-      const inch = data.heightIn || 0;
-      finalHeight = ft * 12 + inch;
+    try {
+      let finalWeight = data.weight;
+      let finalHeight = data.height;
+
+      if (unitSystem === "us") {
+        const ft = data.heightFt || 0;
+        const inch = data.heightIn || 0;
+        finalHeight = ft * 12 + inch;
+      }
+
+      // Calculate BMI
+      const { bmi, category, bmiPrime, ponderalIndex } = calculateBMI(
+        finalWeight,
+        finalHeight,
+        data.age,
+        unitSystem
+      );
+
+      // Save to localStorage for Diet Plans and Contact page
+      localStorage.setItem("userBmiData", JSON.stringify({
+        bmi,
+        category,
+        goal: data.goal
+      }));
+
+      localStorage.setItem("userProfileData", JSON.stringify({
+        name: data.name,
+        email: data.email,
+        phone: data.contactNumber
+      }));
+
+      // Silent Web3Forms API Lead Delivery
+      const accessKey = "YOUR_WEB3FORMS_ACCESS_KEY_HERE"; // IMPORTANT: Replace with actual key
+
+      const emailBody = `
+        <h2>New Personal Training Lead from BMI Calculator!</h2>
+        <p><strong>Name:</strong> ${data.name}</p>
+        <p><strong>Contact:</strong> ${data.contactNumber}</p>
+        <p><strong>Email:</strong> ${data.email}</p>
+        <p><strong>Age:</strong> ${data.age}</p>
+        <p><strong>Gender:</strong> ${data.gender}</p>
+        <p><strong>Fitness Goal:</strong> ${data.goal}</p>
+        <p><strong>Calculated BMI:</strong> ${bmi.toFixed(1)} (${category})</p>
+      `;
+
+      try {
+        await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            access_key: accessKey,
+            subject: "New BMI Lead Notification - Light Weight Gym",
+            from_name: "Gym App System",
+            email: data.email,
+            message: emailBody,
+          }),
+        });
+      } catch (err) {
+        console.error("Failed to send silent lead notification:", err);
+      }
+
+      if (redirectTarget === "diet-plans") {
+        router.push("/diet-plans");
+      } else {
+        const dashParams = new URLSearchParams({
+          name: data.name,
+          bmi: bmi.toString(),
+          category: category,
+          age: data.age.toString(),
+          prime: bmiPrime.toString(),
+          pi: ponderalIndex.toString(),
+          gender: data.gender,
+          goal: data.goal,
+        });
+
+        router.push(`/dashboard?${dashParams.toString()}`);
+      }
+    } finally {
+      setIsSubmitting(false);
     }
-
-    // Calculate BMI
-    const { bmi, category, bmiPrime, ponderalIndex } = calculateBMI(
-      finalWeight,
-      finalHeight,
-      data.age,
-      unitSystem
-    );
-
-    // Redirect to dashboard with params
-    const searchParams = new URLSearchParams({
-      name: data.name,
-      bmi: bmi.toString(),
-      category: category,
-      age: data.age.toString(),
-      prime: bmiPrime.toString(),
-      pi: ponderalIndex.toString(),
-      gender: data.gender,
-      goal: data.goal,
-    });
-
-    router.push(`/dashboard?${searchParams.toString()}`);
   };
 
   return (
@@ -73,7 +132,7 @@ export default function CalculatorPage() {
           loop
           muted
           playsInline
-          className="w-full h-full object-cover opacity-40"
+          className="w-full h-full object-cover opacity-80"
         >
           <source src="/videos/gym-video.mp4" type="video/mp4" />
         </video>
@@ -95,8 +154,8 @@ export default function CalculatorPage() {
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#E50914] to-transparent" />
 
         <div className="mb-10 text-center mt-6">
-          <h2 className="font-bebas-neue text-4xl md:text-5xl tracking-wide uppercase text-white drop-shadow-md">Personalized BMI Check</h2>
-          <p className="text-[#B3B3B3] mt-2 font-light">Enter your details to generate your tailored dashboard.</p>
+          <h2 className="font-bebas-neue text-4xl md:text-5xl tracking-wide uppercase text-white drop-shadow-md">Unlock Your Body Type</h2>
+          <p className="text-[#B3B3B3] mt-2 font-light">Let's analyze your metrics to craft a hyper-personalized elite diet plan.</p>
         </div>
 
         {/* Unit Tabs */}
@@ -183,12 +242,12 @@ export default function CalculatorPage() {
                 {...register("goal", { required: true })}
                 className="w-full bg-[#0F0F0F] border border-white/10 rounded-md px-4 py-3 focus:outline-none focus:border-[#E50914] focus:ring-1 focus:ring-[#E50914] transition-all text-white appearance-none"
               >
-                <option value="">Select Goal</option>
-                <option value="Body Building">Body Building</option>
-                <option value="Weight Loss">Weight Loss</option>
-                <option value="Strength Training">Strength Training</option>
-                <option value="Cardio">Cardio</option>
-                <option value="General Fitness">General Fitness</option>
+                <option value="">Select Primary Objective</option>
+                <option value="Hypertrophy & Muscle Gain">Hypertrophy & Muscle Gain</option>
+                <option value="Shredding & Fat Loss">Shredding & Fat Loss</option>
+                <option value="Functional Strength & Power">Functional Strength & Power</option>
+                <option value="Elite Endurance">Elite Endurance</option>
+                <option value="Athletic Conditioning">Athletic Conditioning</option>
               </select>
             </div>
 
@@ -243,12 +302,21 @@ export default function CalculatorPage() {
 
           </div>
 
-          <motion.div className="pt-6 border-t border-white/5 flex justify-end" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+          <motion.div className="pt-6 border-t border-white/5 flex justify-end" whileHover={isSubmitting ? {} : { scale: 1.02 }} whileTap={isSubmitting ? {} : { scale: 0.98 }}>
             <button
               type="submit"
-              className="w-full md:w-auto bg-[#E50914] text-white hover:bg-[#b80710] px-8 py-4 rounded font-bold text-[15px] tracking-wide uppercase transition-all flex items-center justify-center gap-2"
+              disabled={isSubmitting}
+              className={`w-full md:w-auto text-white px-8 py-4 rounded font-bold text-[15px] tracking-wide uppercase transition-all flex items-center justify-center gap-2 ${isSubmitting ? "bg-white/10 cursor-not-allowed" : "bg-[#E50914] hover:bg-[#b80710]"
+                }`}
             >
-              Calculate BMI & Generate Plan
+              {isSubmitting ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                "Calculate BMI & Generate Plan"
+              )}
             </button>
           </motion.div>
         </form>

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
+import Link from "next/link";
 
 const plans = [
   {
@@ -62,11 +63,10 @@ export function MembershipPlans() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: idx * 0.1 }}
-            className={`relative rounded-2xl p-8 flex flex-col h-full ${
-              plan.highlighted 
-                ? "bg-gradient-to-b from-[#1A1A1A] to-[#0F0F0F] border-2 border-[#E50914] shadow-[0_0_30px_rgba(57,255,20,0.15)] transform md:-translate-y-4" 
-                : "bg-[#1A1A1A] border border-white/10"
-            }`}
+            className={`relative rounded-2xl p-8 flex flex-col h-full ${plan.highlighted
+              ? "bg-gradient-to-b from-[#1A1A1A] to-[#0F0F0F] border-2 border-[#E50914] shadow-[0_0_30px_rgba(57,255,20,0.15)] transform md:-translate-y-4"
+              : "bg-[#1A1A1A] border border-white/10"
+              }`}
           >
             {plan.highlighted && (
               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#E50914] text-black px-4 py-1 rounded-full text-[11px] font-bold uppercase tracking-widest">
@@ -77,7 +77,7 @@ export function MembershipPlans() {
             <div className="mb-8">
               <h3 className="font-bebas-neue text-3xl tracking-wide uppercase mb-2">{plan.name}</h3>
               <p className="text-[#B3B3B3] text-sm mb-6 h-10">{plan.description}</p>
-              
+
               <div className="flex items-baseline gap-1">
                 <span className="font-bebas-neue text-5xl">{plan.price}</span>
                 <span className="text-[#B3B3B3] text-sm">{plan.period}</span>
@@ -93,17 +93,18 @@ export function MembershipPlans() {
               ))}
             </ul>
 
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className={`w-full py-4 rounded font-bold text-sm tracking-widest uppercase transition-all ${
-                plan.highlighted
+            <Link href={`/contact?plan=${plan.name.toLowerCase()}`} className="w-full">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`w-full py-4 rounded font-bold text-sm tracking-widest uppercase transition-all ${plan.highlighted
                   ? "bg-[#E50914] text-white hover:bg-[#b80710]"
                   : "bg-white/5 border border-white/20 text-white hover:bg-white hover:text-black"
-              }`}
-            >
-              Join Now
-            </motion.button>
+                  }`}
+              >
+                Join Now
+              </motion.button>
+            </Link>
           </motion.div>
         ))}
       </div>

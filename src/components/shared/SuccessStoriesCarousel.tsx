@@ -9,7 +9,7 @@ const stories = [
   {
     id: 1,
     name: "Transformation 1",
-    duration: "4 Months",
+    duration: "3 Months",
     quote: "Incredible progress in strength and endurance. The consistency really paid off!",
     image: "/photos/transformation/trans 1.jpg",
     category: "Muscle Gain",
@@ -107,9 +107,9 @@ export function SuccessStoriesCarousel() {
       </div>
 
       <div className="relative max-w-5xl mx-auto px-4 md:px-12 mb-20">
-        
+
         {/* Carousel Container */}
-        <motion.div 
+        <motion.div
           key={story.id}
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -118,12 +118,12 @@ export function SuccessStoriesCarousel() {
           className="bg-[#1A1A1A] border border-white/10 rounded-2xl overflow-hidden shadow-2xl"
         >
           <div className="flex flex-col md:flex-row min-h-[450px]">
-            
+
             {/* Images Section */}
             <div className="w-full md:w-1/2 relative bg-black">
-              <div 
-                className="absolute inset-0 bg-cover bg-center transition-all duration-700 hover:scale-105" 
-                style={{ backgroundImage: `url('${story.image}')` }} 
+              <div
+                className="absolute inset-0 bg-cover bg-center transition-all duration-700 hover:scale-105"
+                style={{ backgroundImage: `url('${story.image}')` }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <div className="absolute bottom-6 left-6 flex gap-2">
@@ -134,16 +134,16 @@ export function SuccessStoriesCarousel() {
             {/* Content Section */}
             <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center relative bg-gradient-to-br from-[#1A1A1A] to-[#0F0F0F]">
               <Quote className="absolute top-8 right-8 w-16 h-16 text-white/5 rotate-180" />
-              
+
               <div className="inline-block px-3 py-1 rounded border border-[#E50914]/30 text-[#E50914] text-xs uppercase tracking-widest font-semibold mb-6 w-fit">
                 {story.category}
               </div>
-              
+
               <h3 className="font-bebas-neue text-4xl tracking-wide uppercase mb-2">{story.name}</h3>
               <p className="text-[#B3B3B3] uppercase tracking-widest text-[11px] mb-8 border-b border-white/10 pb-4 inline-block">
                 Timeframe: <span className="text-white font-semibold">{story.duration}</span>
               </p>
-              
+
               <p className="text-lg font-light italic leading-relaxed text-white/90 relative z-10">
                 "{story.quote}"
               </p>
@@ -153,14 +153,14 @@ export function SuccessStoriesCarousel() {
         </motion.div>
 
         {/* Controls */}
-        <button 
+        <button
           onClick={handlePrev}
           className="absolute left-0 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-[#E50914] text-white hover:text-black rounded-full flex items-center justify-center backdrop-blur transition-all border border-white/10 hover:border-transparent z-10 hidden lg:flex"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
-        
-        <button 
+
+        <button
           onClick={handleNext}
           className="absolute right-0 md:right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-[#E50914] text-white hover:text-black rounded-full flex items-center justify-center backdrop-blur transition-all border border-white/10 hover:border-transparent z-10 hidden lg:flex"
         >
@@ -173,9 +173,8 @@ export function SuccessStoriesCarousel() {
             <button
               key={idx}
               onClick={() => setCurrentIndex(idx)}
-              className={`h-1 rounded-full transition-all ${
-                idx === currentIndex ? "bg-[#E50914] w-8" : "bg-white/20 w-3 hover:bg-white/50"
-              }`}
+              className={`h-1 rounded-full transition-all ${idx === currentIndex ? "bg-[#E50914] w-8" : "bg-white/20 w-3 hover:bg-white/50"
+                }`}
             />
           ))}
         </div>
@@ -202,12 +201,12 @@ export function SuccessStoriesCarousel() {
               onClick={() => setCurrentIndex(idx)}
             >
               <div className="aspect-[4/5] relative">
-                <div 
+                <div
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
                   style={{ backgroundImage: `url('${item.image}')` }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
-                
+
                 <div className="absolute bottom-4 left-4 right-4 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                   <p className="text-[#E50914] text-[10px] uppercase tracking-widest font-black mb-1">{item.category}</p>
                   <h4 className="font-bebas-neue text-2xl tracking-wide uppercase">{item.name}</h4>
