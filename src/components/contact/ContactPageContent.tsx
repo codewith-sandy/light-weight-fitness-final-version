@@ -6,14 +6,8 @@ import { Mail, Phone, MapPin, ArrowRight, Instagram } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from "next/navigation";
 
-type ContactFormData = {
-  name: string;
-  email: string;
-  phone: string;
-  plan: string;
-  addOns: string[];
-  message: string;
-};
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ContactFormSchema, type ContactFormInput } from "@/lib/validations";
 
 export function ContactPageContent() {
   return (
@@ -26,7 +20,9 @@ export function ContactPageContent() {
 function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const searchParams = useSearchParams();
-  const { register, handleSubmit, reset } = useForm<ContactFormData>();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<ContactFormInput>({
+    resolver: zodResolver(ContactFormSchema)
+  });
 
   useEffect(() => {
     // 1. Handle URL Plan Parameter
@@ -37,10 +33,10 @@ function ContactForm() {
       annual: "Annual Plan – ₹8000 +GST/year",
     };
 
-    let initialValues: Partial<ContactFormData> = {};
+    let initialValues: Partial<ContactFormInput> = {};
 
     if (planParam && planMap[planParam.toLowerCase()]) {
-      initialValues.plan = planMap[planParam.toLowerCase()];
+      initialValues.plan = planMap[planParam.toLowerCase()]; // Type error here safely ignored or handled by string match
     }
 
     // 2. Handle Persistent BMI & Profile Data
@@ -65,56 +61,47 @@ function ContactForm() {
     }
   }, [searchParams, reset]);
 
-  const onSubmit = async (data: ContactFormData) => {
+  const onSubmit = async (data: ContactFormInput) => {
     setIsSubmitting(true);
 
     try {
-      const addonsText = data.addOns && data.addOns.length > 0
-        ? `<p><strong>Add-Ons:</strong> ${data.addOns.join(", ")}</p>`
-        : "";
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-      const messageText = data.message ? `<p><strong>Message:</strong> ${data.message}</p>` : "";
+      const responseData = await response.json();
 
-      const accessKey = "YOUR_WEB3FORMS_ACCESS_KEY_HERE"; // IMPORTANT: Replace with actual key
-
-      const emailBody = `
-        <h2>New General Inquiry!</h2>
-        <p><strong>Name:</strong> ${data.name}</p>
-        <p><strong>Phone:</strong> ${data.phone}</p>
-        <p><strong>Email:</strong> ${data.email}</p>
-        <p><strong>Interested Plan:</strong> ${data.plan}</p>
-        ${addonsText}
-        ${messageText}
-      `;
-
-      try {
-        await fetch("https://api.web3forms.com/submit", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            access_key: accessKey,
-            subject: "New General Inquiry - Light Weight Gym",
-            from_name: "Gym App System",
-            email: data.email,
-            message: emailBody,
-          }),
-        });
-      } catch (err) {
-        console.error("Failed to send silent lead notification:", err);
+      if (response.status === 429) {
+        alert("You're doing that too often. Please wait a minute before sending another message.");
+        return;
       }
 
-      alert("Message sent successfully! We will get back to you shortly.");
-      reset();
+      if (response.status === 400) {
+        alert("Validation error! Please check the fields and try again.");
+        return;
+      }
+
+      if (response.ok) {
+        alert("Message sent successfully! We will get back to you shortly.");
+        reset();
+      } else {
+        alert(responseData.message || "Failed to send message. Please try again.");
+      }
+    } catch (err) {
+      console.error("Failed to submit form:", err);
+      alert("A network error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen py-32 px-6">
+    <div className="min-h-screen py-20 md:py-32 px-6">
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
@@ -170,10 +157,11 @@ function ContactForm() {
               <div className="space-y-2">
                 <label className="text-xs uppercase tracking-widest text-[#B3B3B3] font-bold">Full Name</label>
                 <input
-                  {...register("name", { required: true })}
+                  {...register("name")}
                   className="w-full bg-[#0F0F0F] border border-white/10 rounded-md px-4 py-3 focus:outline-none focus:border-[#E50914] transition-colors text-white"
                   placeholder="John Doe"
                 />
+                {errors.name && <p className="text-[#E50914] text-xs mt-1">{errors.name.message}</p>}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -181,18 +169,20 @@ function ContactForm() {
                   <label className="text-xs uppercase tracking-widest text-[#B3B3B3] font-bold">Email Address</label>
                   <input
                     type="email"
-                    {...register("email", { required: true })}
+                    {...register("email")}
                     className="w-full bg-[#0F0F0F] border border-white/10 rounded-md px-4 py-3 focus:outline-none focus:border-[#E50914] transition-colors text-white"
                     placeholder="john@example.com"
                   />
+                  {errors.email && <p className="text-[#E50914] text-xs mt-1">{errors.email.message}</p>}
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs uppercase tracking-widest text-[#B3B3B3] font-bold">Phone Number</label>
                   <input
-                    {...register("phone", { required: true })}
+                    {...register("phone")}
                     className="w-full bg-[#0F0F0F] border border-white/10 rounded-md px-4 py-3 focus:outline-none focus:border-[#E50914] transition-colors text-white"
                     placeholder="+91 00000 00000"
                   />
+                  {errors.phone && <p className="text-[#E50914] text-xs mt-1">{errors.phone.message}</p>}
                 </div>
               </div>
 
@@ -249,6 +239,7 @@ function ContactForm() {
                   className="w-full bg-[#0F0F0F] border border-white/10 rounded-md px-4 py-3 focus:outline-none focus:border-[#E50914] transition-colors text-white resize-none"
                   placeholder="Any questions or special requirements? (Optional)"
                 />
+                {errors.message && <p className="text-[#E50914] text-xs mt-1">{errors.message.message}</p>}
               </div>
 
               <button

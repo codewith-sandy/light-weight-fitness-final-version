@@ -95,10 +95,10 @@ export function DietPlans() {
   return (
     <div className="w-full relative py-12">
       <div className="text-center mb-16 px-4">
-        <h2 className="font-bebas-neue text-5xl md:text-6xl tracking-widest uppercase mb-4 text-[#E50914]">
+        <h2 className="font-bebas-neue text-4xl md:text-5xl lg:text-6xl tracking-widest uppercase mb-4 text-[#E50914]">
           {userData.goal} Plan
         </h2>
-        <h3 className="text-2xl font-bebas-neue tracking-widest uppercase mb-4 text-white">
+        <h3 className="text-xl md:text-2xl font-bebas-neue tracking-widest uppercase mb-4 text-white">
           BMI Category: {userData.category} ({userData.bmi.toFixed(1)})
         </h3>
         <div className="w-24 h-1 bg-[#E50914] mx-auto mb-6" />

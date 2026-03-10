@@ -8,20 +8,11 @@ import { ArrowLeft, Ruler, Scale } from "lucide-react";
 import Link from "next/link";
 import { Suspense, useState } from "react";
 
-type BMIFormData = {
-  name: string;
-  age: number;
-  email: string;
-  contactNumber: string;
-  gender: string;
-  height: number; // cm
-  weight: number; // kg or lbs
-  heightFt?: number;
-  heightIn?: number;
-  goal: string;
-};
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CalculatorFormSchema, type CalculatorFormInput } from "@/lib/validations";
 
-function CalculatorForm() {
+export function CalculatorForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTarget = searchParams.get("redirect");
@@ -33,14 +24,16 @@ function CalculatorForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<BMIFormData>();
+  } = useForm<CalculatorFormInput>({
+    resolver: zodResolver(CalculatorFormSchema)
+  });
 
-  const onSubmit = async (data: BMIFormData) => {
+  const onSubmit = async (data: CalculatorFormInput) => {
     setIsSubmitting(true);
 
     try {
-      let finalWeight = data.weight;
-      let finalHeight = data.height;
+      let finalWeight = data.weight || 0;
+      let finalHeight = data.height || 0;
 
       if (unitSystem === "us") {
         const ft = data.heightFt || 0;
@@ -69,51 +62,47 @@ function CalculatorForm() {
         phone: data.contactNumber
       }));
 
-      // Silent Web3Forms API Lead Delivery
-      const accessKey = "YOUR_WEB3FORMS_ACCESS_KEY_HERE"; // IMPORTANT: Replace with actual key
-
-      const emailBody = `
-        <h2>New Personal Training Lead from BMI Calculator!</h2>
-        <p><strong>Name:</strong> ${data.name}</p>
-        <p><strong>Contact:</strong> ${data.contactNumber}</p>
-        <p><strong>Email:</strong> ${data.email}</p>
-        <p><strong>Age:</strong> ${data.age}</p>
-        <p><strong>Gender:</strong> ${data.gender}</p>
-        <p><strong>Fitness Goal:</strong> ${data.goal}</p>
-        <p><strong>Calculated BMI:</strong> ${bmi.toFixed(1)} (${category})</p>
-      `;
-
       try {
-        await fetch("https://api.web3forms.com/submit", {
+        const response = await fetch("/api/calculator", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
           },
           body: JSON.stringify({
-            access_key: accessKey,
-            subject: "New BMI Lead Notification - Light Weight Gym",
-            from_name: "Gym App System",
-            email: data.email,
-            message: emailBody,
+            ...data,
+            bmiParsed: bmi.toFixed(1),
+            bmiCategory: category
           }),
         });
+
+        if (response.status === 429) {
+          alert("We've detected too many requests. Please wait a minute before submitting again.");
+          setIsSubmitting(false);
+          return;
+        }
+
+        if (response.status === 400) {
+          alert("Validation failed! Please review your form entries.");
+          setIsSubmitting(false);
+          return;
+        }
       } catch (err) {
-        console.error("Failed to send silent lead notification:", err);
+        console.error("Failed to send silent lead to secure API:", err);
       }
 
       if (redirectTarget === "diet-plans") {
         router.push("/diet-plans");
       } else {
         const dashParams = new URLSearchParams({
-          name: data.name,
+          name: data.name || "",
           bmi: bmi.toString(),
           category: category,
           age: data.age.toString(),
           prime: bmiPrime.toString(),
           pi: ponderalIndex.toString(),
-          gender: data.gender,
-          goal: data.goal,
+          gender: data.gender || "",
+          goal: data.goal || "",
         });
 
         router.push(`/dashboard?${dashParams.toString()}`);
@@ -132,7 +121,7 @@ function CalculatorForm() {
           loop
           muted
           playsInline
-          className="w-full h-full object-cover opacity-80"
+          className="absolute top-1/2 left-1/2 w-[110vmax] h-[110vmax] max-w-none object-cover -translate-x-1/2 -translate-y-1/2 -rotate-90 opacity-80 scale-110"
         >
           <source src="/videos/gym-video.mp4" type="video/mp4" />
         </video>
@@ -198,10 +187,11 @@ function CalculatorForm() {
               <label className="text-[13px] uppercase tracking-wider text-[#B3B3B3] font-semibold">Age</label>
               <input
                 type="number"
-                {...register("age", { required: true, min: 2, max: 100, valueAsNumber: true })}
+                {...register("age", { valueAsNumber: true })}
                 className="w-full bg-[#0F0F0F] border border-white/10 rounded-md px-4 py-3 focus:outline-none focus:border-[#E50914] focus:ring-1 focus:ring-[#E50914] transition-all text-white"
                 placeholder="25"
               />
+              {errors.age && <p className="text-[#E50914] text-xs mt-1">{errors.age.message}</p>}
             </div>
 
             <div className="space-y-2">
@@ -226,7 +216,7 @@ function CalculatorForm() {
             <div className="space-y-2">
               <label className="text-[13px] uppercase tracking-wider text-[#B3B3B3] font-semibold">Gender</label>
               <select
-                {...register("gender", { required: true })}
+                {...register("gender")}
                 className="w-full bg-[#0F0F0F] border border-white/10 rounded-md px-4 py-3 focus:outline-none focus:border-[#E50914] focus:ring-1 focus:ring-[#E50914] transition-all text-white appearance-none"
               >
                 <option value="">Select Gender</option>
@@ -234,6 +224,7 @@ function CalculatorForm() {
                 <option value="female">Female</option>
                 <option value="other">Other</option>
               </select>
+              {errors.gender && <p className="text-[#E50914] text-xs mt-1">{errors.gender.message}</p>}
             </div>
 
             <div className="space-y-2">
@@ -294,10 +285,11 @@ function CalculatorForm() {
               </label>
               <input
                 type="number"
-                {...register("weight", { required: true, valueAsNumber: true })}
+                {...register("weight", { valueAsNumber: true })}
                 className="w-full bg-[#0F0F0F] border border-white/10 rounded-md px-4 py-3 focus:outline-none focus:border-[#E50914] focus:ring-1 focus:ring-[#E50914] transition-all text-white"
                 placeholder={unitSystem === "metric" ? "70" : "160"}
               />
+              {errors.weight && <p className="text-[#E50914] text-xs mt-1">{errors.weight.message}</p>}
             </div>
 
           </div>

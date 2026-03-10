@@ -55,7 +55,7 @@ export function MembershipPlans() {
         <p className="text-[#B3B3B3] max-w-2xl mx-auto font-light">Select the level of commitment that matches your ambition.</p>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {plans.map((plan, idx) => (
           <motion.div
             key={plan.name}

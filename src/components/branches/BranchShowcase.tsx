@@ -37,7 +37,7 @@ export function BranchShowcase() {
         <p className="text-[#B3B3B3] max-w-2xl mx-auto font-light">Experience state-of-the-art equipment and an uncompromising environment designed to breed success.</p>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10">
 
         {branches.map((branch, idx) => (
           <motion.div

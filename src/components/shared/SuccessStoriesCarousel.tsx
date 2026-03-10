@@ -80,7 +80,7 @@ const stories = [
   }
 ];
 
-export function SuccessStoriesCarousel() {
+export function SuccessStoriesCarousel({ hideHero = false }: { hideHero?: boolean }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = () => {
@@ -101,87 +101,91 @@ export function SuccessStoriesCarousel() {
 
   return (
     <div className="w-full relative py-12">
-      <div className="text-center mb-16">
-        <h2 className="font-bebas-neue text-5xl md:text-6xl tracking-widest uppercase mb-4">Real Results</h2>
-        <div className="w-24 h-1 bg-[#E50914] mx-auto" />
-      </div>
-
-      <div className="relative max-w-5xl mx-auto px-4 md:px-12 mb-20">
-
-        {/* Carousel Container */}
-        <motion.div
-          key={story.id}
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -50 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="bg-[#1A1A1A] border border-white/10 rounded-2xl overflow-hidden shadow-2xl"
-        >
-          <div className="flex flex-col lg:flex-row min-h-[450px]">
-
-            {/* Images Section */}
-            <div className="w-full lg:w-1/2 h-[350px] lg:h-auto relative bg-black overflow-hidden">
-              <motion.div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url('${story.image}')` }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 1.05 }}
-                transition={{ duration: 0.7 }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-              <div className="absolute bottom-6 left-6 flex gap-2">
-                <span className="bg-[#E50914] text-black px-3 py-1 rounded text-[10px] uppercase tracking-widest font-black">Success Story</span>
-              </div>
-            </div>
-
-            {/* Content Section */}
-            <div className="w-full lg:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col justify-center relative bg-gradient-to-br from-[#1A1A1A] to-[#0F0F0F]">
-              <Quote className="absolute top-8 right-8 w-16 h-16 text-white/5 rotate-180" />
-
-              <div className="inline-block px-3 py-1 rounded border border-[#E50914]/30 text-[#E50914] text-xs uppercase tracking-widest font-semibold mb-6 w-fit">
-                {story.category}
-              </div>
-
-              <h3 className="font-bebas-neue text-4xl tracking-wide uppercase mb-2">{story.name}</h3>
-              <p className="text-[#B3B3B3] uppercase tracking-widest text-[11px] mb-8 border-b border-white/10 pb-4 inline-block">
-                Timeframe: <span className="text-white font-semibold">{story.duration}</span>
-              </p>
-
-              <p className="text-lg font-light italic leading-relaxed text-white/90 relative z-10">
-                "{story.quote}"
-              </p>
-            </div>
-
+      {!hideHero && (
+        <>
+          <div className="text-center mb-16">
+            <h2 className="font-bebas-neue text-5xl md:text-6xl tracking-widest uppercase mb-4">Real Results</h2>
+            <div className="w-24 h-1 bg-[#E50914] mx-auto" />
           </div>
-        </motion.div>
 
-        {/* Controls */}
-        <button
-          onClick={handlePrev}
-          className="absolute left-0 md:left-4 top-[175px] lg:top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-[#E50914] text-white hover:text-black rounded-full flex items-center justify-center backdrop-blur transition-all border border-white/10 hover:border-transparent z-10 hidden md:flex"
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
+          <div className="relative max-w-5xl mx-auto px-4 md:px-12 mb-20">
 
-        <button
-          onClick={handleNext}
-          className="absolute right-0 md:right-4 top-[175px] lg:top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-[#E50914] text-white hover:text-black rounded-full flex items-center justify-center backdrop-blur transition-all border border-white/10 hover:border-transparent z-10 hidden md:flex"
-        >
-          <ChevronRight className="w-5 h-5" />
-        </button>
+            {/* Carousel Container */}
+            <motion.div
+              key={story.id}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="bg-[#1A1A1A] border border-white/10 rounded-2xl overflow-hidden shadow-2xl"
+            >
+              <div className="flex flex-col lg:flex-row min-h-[450px]">
 
-        {/* Dots */}
-        <div className="flex justify-center gap-2 mt-8">
-          {stories.map((_, idx) => (
+                {/* Images Section */}
+                <div className="w-full lg:w-1/2 h-[350px] lg:h-auto relative bg-black overflow-hidden">
+                  <motion.div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: `url('${story.image}')` }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 1.05 }}
+                    transition={{ duration: 0.7 }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <div className="absolute bottom-6 left-6 flex gap-2">
+                    <span className="bg-[#E50914] text-black px-3 py-1 rounded text-[10px] uppercase tracking-widest font-black">Success Story</span>
+                  </div>
+                </div>
+
+                {/* Content Section */}
+                <div className="w-full lg:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col justify-center relative bg-gradient-to-br from-[#1A1A1A] to-[#0F0F0F]">
+                  <Quote className="absolute top-8 right-8 w-16 h-16 text-white/5 rotate-180" />
+
+                  <div className="inline-block px-3 py-1 rounded border border-[#E50914]/30 text-[#E50914] text-xs uppercase tracking-widest font-semibold mb-6 w-fit">
+                    {story.category}
+                  </div>
+
+                  <h3 className="font-bebas-neue text-4xl tracking-wide uppercase mb-2">{story.name}</h3>
+                  <p className="text-[#B3B3B3] uppercase tracking-widest text-[11px] mb-8 border-b border-white/10 pb-4 inline-block">
+                    Timeframe: <span className="text-white font-semibold">{story.duration}</span>
+                  </p>
+
+                  <p className="text-lg font-light italic leading-relaxed text-white/90 relative z-10">
+                    "{story.quote}"
+                  </p>
+                </div>
+
+              </div>
+            </motion.div>
+
+            {/* Controls */}
             <button
-              key={idx}
-              onClick={() => setCurrentIndex(idx)}
-              className={`h-1 rounded-full transition-all ${idx === currentIndex ? "bg-[#E50914] w-8" : "bg-white/20 w-3 hover:bg-white/50"
-                }`}
-            />
-          ))}
-        </div>
-      </div>
+              onClick={handlePrev}
+              className="absolute left-0 md:left-4 top-[175px] lg:top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-[#E50914] text-white hover:text-black rounded-full flex items-center justify-center backdrop-blur transition-all border border-white/10 hover:border-transparent z-10 hidden md:flex"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+
+            <button
+              onClick={handleNext}
+              className="absolute right-0 md:right-4 top-[175px] lg:top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-[#E50914] text-white hover:text-black rounded-full flex items-center justify-center backdrop-blur transition-all border border-white/10 hover:border-transparent z-10 hidden md:flex"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+
+            {/* Dots */}
+            <div className="flex justify-center gap-2 mt-8">
+              {stories.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentIndex(idx)}
+                  className={`h-1 rounded-full transition-all ${idx === currentIndex ? "bg-[#E50914] w-8" : "bg-white/20 w-3 hover:bg-white/50"
+                    }`}
+                />
+              ))}
+            </div>
+          </div>
+        </>
+      )}
 
       {/* Grid View of All Results */}
       <div className="max-w-7xl mx-auto px-6">
