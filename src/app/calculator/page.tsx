@@ -113,7 +113,7 @@ export function CalculatorForm() {
   };
 
   return (
-    <div className="min-h-screen py-32 px-6 flex flex-col items-center justify-center relative w-full overflow-hidden bg-[#0F0F0F]">
+    <div className="min-h-screen py-32 px-6 flex flex-col items-center justify-center relative w-full overflow-hidden">
       {/* Background Video */}
       <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden flex items-center justify-center">
         <video

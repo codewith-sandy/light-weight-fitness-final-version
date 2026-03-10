@@ -3,7 +3,7 @@ import { SuccessStoriesCarousel } from "@/components/shared/SuccessStoriesCarous
 
 export default function SuccessStoriesPage() {
   return (
-    <div className="min-h-screen pt-20 bg-[#0F0F0F]">
+    <div className="min-h-screen pt-20">
       <AnimatedSuccessStories />
 
       {/* Existing Grid View Section starts here - using the bottom half of SuccessStoriesCarousel logic */}

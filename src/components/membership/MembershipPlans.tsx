@@ -8,7 +8,8 @@ const plans = [
   {
     name: "Monthly",
     price: "₹1000",
-    period: "+GST/ month",
+    gst: "+GST",
+    period: "/ MONTH",
     description: "Flexible commitment for consistent local gym goers.",
     features: [
       "Full gym floor access",
@@ -21,7 +22,8 @@ const plans = [
   {
     name: "Quarterly",
     price: "₹2400",
-    period: "+GST/ 3 months",
+    gst: "+GST",
+    period: "/ 3 MONTHS",
     description: "Lock in your routine and commit to a 90-day transformation.",
     features: [
       "Full gym floor access",
@@ -34,7 +36,8 @@ const plans = [
   {
     name: "Annual",
     price: "₹8000",
-    period: "+GST/ year",
+    gst: "+GST",
+    period: "/ YEAR",
     description: "The ultimate value for dedicated warriors. No excuses.",
     features: [
       "Full gym floor access",
@@ -78,9 +81,12 @@ export function MembershipPlans() {
               <h3 className="font-bebas-neue text-3xl tracking-wide uppercase mb-2">{plan.name}</h3>
               <p className="text-[#B3B3B3] text-sm mb-6 h-10">{plan.description}</p>
 
-              <div className="flex items-baseline gap-1">
-                <span className="font-bebas-neue text-5xl">{plan.price}</span>
-                <span className="text-[#B3B3B3] text-sm">{plan.period}</span>
+              <div className="flex items-baseline gap-1.5">
+                <span className="font-bebas-neue text-6xl text-white">{plan.price}</span>
+                <div className="flex flex-col -mb-1">
+                  <span className="text-[#E50914] text-[10px] font-bold leading-none tracking-widest">{plan.gst}</span>
+                  <span className="text-[#B3B3B3] font-bebas-neue text-xl leading-none">{plan.period}</span>
+                </div>
               </div>
             </div>
 

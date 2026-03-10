@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Home, 
-  Trophy, 
-  MapPin, 
-  Utensils, 
-  CreditCard, 
+import {
+  Home,
+  Trophy,
+  MapPin,
+  Utensils,
+  CreditCard,
   Phone,
   Image as ImageIcon,
   Instagram,
@@ -41,7 +41,7 @@ export function Sidebar() {
   return (
     <>
       {/* Mobile Toggle Button */}
-      <button 
+      <button
         onClick={() => setIsMobileOpen(!isMobileOpen)}
         className="md:hidden fixed top-6 right-6 z-[60] p-2 bg-[#1A1A1A] border border-white/10 rounded-md text-white shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all hover:bg-white/10"
       >
@@ -51,7 +51,7 @@ export function Sidebar() {
       {/* Mobile Overlay */}
       <AnimatePresence>
         {isMobileOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -64,7 +64,7 @@ export function Sidebar() {
       {/* Sidebar Container */}
       <motion.div
         initial={false}
-        animate={{ 
+        animate={{
           width: isDesktopExpanded ? "240px" : "70px",
         }}
         className={cn(
@@ -83,8 +83,8 @@ export function Sidebar() {
             const isActive = pathname === item.href;
 
             return (
-              <Link 
-                key={item.href} 
+              <Link
+                key={item.href}
                 href={item.href}
                 {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               >
@@ -103,12 +103,12 @@ export function Sidebar() {
                       transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     />
                   )}
-                  
+
                   <item.icon
                     className={cn("w-6 h-6 shrink-0", isActive ? "text-[#E50914]" : "")}
                     strokeWidth={1.5}
                   />
-                  
+
                   <motion.span
                     initial={false}
                     animate={{ opacity: isDesktopExpanded || isMobileOpen ? 1 : 0 }}

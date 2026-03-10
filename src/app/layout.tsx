@@ -17,6 +17,9 @@ const bebasNeue = Bebas_Neue({
 export const metadata: Metadata = {
   title: "Gym Transformation Hub",
   description: "You Know Your Goal. Now Let's Know Your Path.",
+  icons: {
+    icon: "/icon.jpeg",
+  },
 };
 
 export default function RootLayout({
