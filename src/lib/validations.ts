@@ -45,22 +45,22 @@ export const CalculatorFormSchema = z.object({
     contactNumber: z.string().optional(),
     goal: z.string().optional(),
     age: z
-        .number({ invalid_type_error: "Age must be a number" })
+        .number({ message: "Age must be a number" })
         .min(2, "Age must be at least 2")
         .max(100, "Age cannot exceed 100"),
     gender: z.enum(["male", "female", "other"], {
-        errorMap: () => ({ message: "Please select a valid gender" })
+        message: "Please select a valid gender"
     }).optional(),
     unit: z.enum(["metric", "imperial", "us"]).optional(),
     height: z
-        .number({ invalid_type_error: "Height must be a valid number" })
+        .number({ message: "Height must be a valid number" })
         .min(50, "Height is too low")
         .max(300, "Height is unusually high")
         .optional(),
     heightFt: z.number().optional(),
     heightIn: z.number().optional(),
     weight: z
-        .number({ invalid_type_error: "Weight must be a valid number" })
+        .number({ message: "Weight must be a valid number" })
         .min(20, "Weight is too low")
         .max(500, "Weight is unusually high")
         .optional(),
