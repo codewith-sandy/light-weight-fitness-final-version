@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from 'framer-motion';
+import Shuffle from '../Shuffle';
 import { Button, type ButtonProps } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import React from 'react';
@@ -83,6 +84,17 @@ const MediaRender = ({ src, alt, className }: { src: string; alt: string; classN
 };
 
 const HeroSection = ({ badge, title, subtitle, actions, stats, images, className }: HeroSectionProps) => {
+    // Extract text from title prop if it's a React fragment with two children
+    let firstLine = "Discover Your";
+    let secondLine = "Strongest Self";
+    if (typeof title === 'string') {
+        firstLine = title;
+        secondLine = '';
+    } else if (React.isValidElement(title) && Array.isArray(title.props.children)) {
+        const children = title.props.children;
+        if (typeof children[0] === 'string') firstLine = children[0].trim();
+        if (children[1] && typeof children[1].props?.children === 'string') secondLine = children[1].props.children.trim();
+    }
     return (
         <section className={cn('relative w-full overflow-hidden bg-transparent pt-12 pb-12', className)}>
             <div className="container mx-auto px-6 grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-8">
@@ -104,7 +116,24 @@ const HeroSection = ({ badge, title, subtitle, actions, stats, images, className
                         className="text-5xl font-bold tracking-tight text-white sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.1] uppercase font-bebas-neue"
                         variants={itemVariants}
                     >
-                        {title}
+                        <Shuffle
+                            text={firstLine}
+                            className="font-bebas-neue ml-0"
+                            tag="span"
+                            loop={true}
+                            loopDelay={1}
+                            style={{ color: '#f8f8f8',marginLeft:'-3rem' }}
+                        />
+                        {secondLine && (
+                            <Shuffle
+                                text={secondLine}
+                                className="font-bebas-neue ml-6"
+                                tag="span"
+                                loop={true}
+                                loopDelay={1}
+                                style={{ color: '#ff6666', marginLeft: '3rem' }}
+                            />
+                        )}
                     </motion.h1>
 
                     <motion.div className="mt-6 max-w-xl text-lg text-[#B3B3B3] font-light" variants={itemVariants}>
@@ -168,7 +197,7 @@ const HeroSection = ({ badge, title, subtitle, actions, stats, images, className
                         <div className="relative w-full max-w-[500px] h-full pointer-events-auto">
                             {/* Images / Videos */}
                             <motion.div
-                                className="absolute z-10 top-0 left-1/2 -translate-x-1/2 w-[70%] h-[60%] rounded-xl shadow-[0_0_40px_rgba(0,0,0,0.8)] overflow-hidden border border-white/10"
+                                className="absolute z-10 top-[-10] left-1/2 -translate-x-1/2 w-[70%] h-[60%] rounded-xl shadow-[0_0_40px_rgba(0,0,0,0.8)] overflow-hidden border border-white/10"
                                 style={{ transformOrigin: 'bottom center' }}
                                 variants={imageVariants}
                             >
@@ -176,7 +205,7 @@ const HeroSection = ({ badge, title, subtitle, actions, stats, images, className
                             </motion.div>
 
                             <motion.div
-                                className="absolute z-20 top-[35%] right-0 w-[55%] h-[50%] rounded-xl shadow-[0_0_40px_rgba(0,0,0,0.8)] overflow-hidden border border-[#E50914]/30"
+                                className="absolute z-20 top-[35%] right-[-20] w-[55%] h-[50%] rounded-xl shadow-[0_0_40px_rgba(0,0,0,0.8)] overflow-hidden border border-[#E50914]/30"
                                 style={{ transformOrigin: 'left center' }}
                                 variants={imageVariants}
                             >
@@ -184,7 +213,7 @@ const HeroSection = ({ badge, title, subtitle, actions, stats, images, className
                             </motion.div>
 
                             <motion.div
-                                className="absolute z-30 bottom-[5%] left-0 w-[50%] h-[40%] rounded-xl shadow-[0_0_40px_rgba(0,0,0,0.8)] overflow-hidden border border-white/10"
+                                className="absolute z-30 bottom-[5%] left-[-20] w-[50%] h-[40%] rounded-xl shadow-[0_0_40px_rgba(0,0,0,0.8)] overflow-hidden border border-white/10"
                                 style={{ transformOrigin: 'top right' }}
                                 variants={imageVariants}
                             >

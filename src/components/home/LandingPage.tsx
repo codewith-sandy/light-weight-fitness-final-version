@@ -3,12 +3,13 @@
 import { Dumbbell, Trophy, ArrowRight } from "lucide-react";
 import HeroSection from "@/components/ui/hero-section-9";
 
+
 export function LandingPage() {
   const heroData = {
     badge: (
       <div className="relative group inline-block">
-        <div className="absolute -inset-0.5 bg-gradient-to-r from-[#E50914] to-[#ff4d4d] rounded-full blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200"></div>
-        <div className="relative px-5 py-2 rounded-full border border-white/10 bg-black/60 backdrop-blur-xl text-[12px] font-bold tracking-[0.3em] uppercase text-[#E50914] shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex items-center gap-2">
+        <div className="absolute -inset-0.5 bg-gradient-to-r from-[#E50914] to-[#ff4d4d] rounded-full blur opacity-50 group-hover:opacity-60 transition duration-100 group-hover:duration-20"></div>
+        <div className="relative px-5 py-2 rounded-full border border-white/10 bg-black/60 backdrop-blur-xl text-[12px] font-bold tracking-[0.3em] uppercase text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-[#E50914] animate-pulse shadow-[0_0_10px_#E50914]"></span>
           Light Weight Fitness Studio
         </div>
@@ -16,7 +17,10 @@ export function LandingPage() {
     ),
     title: (
       <>
-        Discover Your <span className="text-transparent bg-clip-text bg-gradient-to-br from-[#E50914] via-[#ff2a2a] to-[#8a0000]">Strongest Self</span>
+        Discover Your
+        <span className="text-transparent bg-clip-text bg-gradient-to-br from-[#E50914] via-[#ff2a2a] to-[#8a0000]">
+          Strongest Self
+          </span>
       </>
     ),
     subtitle: "Transform your body with elite equipment, expert trainers, and the most supportive fitness community in New Vellanur.",

@@ -45,7 +45,7 @@ export function AnimatedSuccessStories() {
     return (
         <div className="py-20">
             <div className="text-center mb-10">
-                <h2 className="font-bebas-neue text-5xl md:text-7xl tracking-widest uppercase mb-4 text-white">
+                <h2 className="font-bebas-neue text-5xl md:text-7xl tracking-widest uppercase mb-4 text-white" style={{ marginTop: '-100px' }}>
                     Real <span className="text-[#E50914]">Results</span>
                 </h2>
                 <p className="text-[#B3B3B3] max-w-2xl mx-auto uppercase tracking-widest text-sm">
