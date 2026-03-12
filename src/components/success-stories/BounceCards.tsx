@@ -38,7 +38,7 @@ export default function BounceCards({
     return () => ctx.revert();
   }, [animationStagger, easeType, animationDelay]);
 
-  const getNoRotationTransform = transformStr => {
+  const getNoRotationTransform = (transformStr: string) => {
     const hasRotate = /rotate\([\s\S]*?\)/.test(transformStr);
     if (hasRotate) {
       return transformStr.replace(/rotate\([\s\S]*?\)/, 'rotate(0deg)');
