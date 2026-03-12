@@ -49,7 +49,7 @@ export default function BounceCards({
     }
   };
 
-  const getPushedTransform = (baseTransform, offsetX) => {
+  const getPushedTransform = (baseTransform: string, offsetX: number) => {
     const translateRegex = /translate\(([-0-9.]+)px\)/;
     const match = baseTransform.match(translateRegex);
     if (match) {
@@ -61,7 +61,7 @@ export default function BounceCards({
     }
   };
 
-  const pushSiblings = hoveredIdx => {
+  const pushSiblings = (hoveredIdx: number) => {
     if (!enableHover || !containerRef.current) return;
 
     const q = gsap.utils.selector(containerRef);

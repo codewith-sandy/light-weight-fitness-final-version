@@ -90,10 +90,20 @@ const HeroSection = ({ badge, title, subtitle, actions, stats, images, className
     if (typeof title === 'string') {
         firstLine = title;
         secondLine = '';
-    } else if (React.isValidElement(title) && Array.isArray(title.props.children)) {
-        const children = title.props.children;
-        if (typeof children[0] === 'string') firstLine = children[0].trim();
-        if (children[1] && typeof children[1].props?.children === 'string') secondLine = children[1].props.children.trim();
+    } else if (
+        React.isValidElement(title) &&
+        title.props &&
+        Array.isArray((title.props as { children?: React.ReactNode[] }).children)
+    ) {
+        const children = (title.props as { children?: React.ReactNode[] }).children;
+        if (children && typeof children[0] === 'string') firstLine = children[0].trim();
+        if (
+            children &&
+            children[1] &&
+            typeof (children[1] as any).props?.children === 'string'
+        ) {
+            secondLine = (children[1] as any).props.children.trim();
+        }
     }
     return (
         <section className={cn('relative w-full overflow-hidden bg-transparent pt-12 pb-12', className)}>
@@ -122,7 +132,10 @@ const HeroSection = ({ badge, title, subtitle, actions, stats, images, className
                             tag="span"
                             loop={true}
                             loopDelay={1}
-                            style={{ color: '#f8f8f8',marginLeft:'-3rem' }}
+                            style={{ color: '#f8f8f8', marginLeft: '-3rem' }}
+                            onShuffleComplete={() => {}}
+                            colorFrom="#f8f8f8"
+                            colorTo="#f8f8f8"
                         />
                         {secondLine && (
                             <Shuffle
@@ -132,6 +145,9 @@ const HeroSection = ({ badge, title, subtitle, actions, stats, images, className
                                 loop={true}
                                 loopDelay={1}
                                 style={{ color: '#ff6666', marginLeft: '3rem' }}
+                                onShuffleComplete={() => {}}
+                                colorFrom="#ff6666"
+                                colorTo="#ff6666"
                             />
                         )}
                     </motion.h1>
