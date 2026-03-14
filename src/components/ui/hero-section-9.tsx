@@ -1,6 +1,6 @@
 
 "use client";
-import { ArrowRight } from "lucide-react";
+
 
 import { motion } from 'framer-motion';
 import Shuffle from '../Shuffle';
@@ -139,7 +139,7 @@ const HeroSection = ({ badge, title, subtitle, actions, stats, images, className
                             loop={true}
                             loopDelay={1}
                             style={{ color: '#f8f8f8' }}
-                            onShuffleComplete={() => {}}
+                            onShuffleComplete={() => { }}
                             colorFrom="#f8f8f8"
                             colorTo="#f8f8f8"
                         />
@@ -151,7 +151,7 @@ const HeroSection = ({ badge, title, subtitle, actions, stats, images, className
                                 loop={true}
                                 loopDelay={1}
                                 style={{ color: '#ff2a2a' }}
-                                onShuffleComplete={() => {}}
+                                onShuffleComplete={() => { }}
                                 colorFrom="#ff2a2a"
                                 colorTo="#ff2a2a"
                             />
@@ -223,7 +223,7 @@ const HeroSection = ({ badge, title, subtitle, actions, stats, images, className
                                 style={{ transformOrigin: 'bottom center' }}
                                 variants={imageVariants}
                             >
-                                <MediaRender src={images[0]} alt="Gym training" className="h-full w-full object-cover grayscale hover:grayscale-0 transition-all duration-500" />
+                                <MediaRender src={images[0]} alt="Gym training" className="h-full w-full object-cover filter transition-all duration-500" />
                             </motion.div>
 
                             <motion.div
@@ -239,7 +239,7 @@ const HeroSection = ({ badge, title, subtitle, actions, stats, images, className
                                 style={{ transformOrigin: 'top right' }}
                                 variants={imageVariants}
                             >
-                                <MediaRender src={images[2]} alt="Gym transformation" className="h-full w-full object-cover grayscale hover:grayscale-0 transition-all duration-500" />
+                                <MediaRender src={images[2]} alt="Gym transformation" className="h-full w-full object-cover filter  transition-all duration-500" />
                             </motion.div>
                         </div>
                     </div>

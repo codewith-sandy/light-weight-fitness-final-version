@@ -42,7 +42,7 @@ export const AnimatedMarqueeHero: React.FC<AnimatedMarqueeHeroProps> = ({
             <div className="z-10 flex flex-col items-center pt-20 pb-40">
                 {/* Tagline */}
                 <motion.div
-                    initial="hidden"
+                    initial="show"
                     animate="show"
                     variants={FADE_IN_ANIMATION_VARIANTS}
                     className="mb-6 flex justify-center"
@@ -52,7 +52,7 @@ export const AnimatedMarqueeHero: React.FC<AnimatedMarqueeHeroProps> = ({
 
                 {/* Main Title */}
                 <motion.h1
-                    initial="hidden"
+                    initial="show"
                     animate="show"
                     variants={{
                         hidden: {},
@@ -69,7 +69,7 @@ export const AnimatedMarqueeHero: React.FC<AnimatedMarqueeHeroProps> = ({
 
                 {/* Description */}
                 <motion.p
-                    initial="hidden"
+                    initial="show"
                     animate="show"
                     variants={FADE_IN_ANIMATION_VARIANTS}
                     transition={{ delay: 0.4 }}
