@@ -117,16 +117,22 @@ export function SuccessVideoWall() {
                         onClick={() => setSelectedVideo(video)}
                     >
                         <div className="aspect-[4/5] relative overflow-hidden">
-                            <video
-                                autoPlay
-                                loop
-                                muted
-                                playsInline
-                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            <motion.div 
+                                className="absolute inset-0 md:grayscale group-hover:grayscale-0 transition-all duration-700"
+                                whileHover={{ scale: 1.1 }}
                             >
-                                <source src={video.src} type="video/mp4" />
-                            </video>
-                            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 pointer-events-none" />
+                                <video
+                                    autoPlay
+                                    loop
+                                    muted
+                                    playsInline
+                                    className="w-full h-full object-cover"
+                                >
+                                    <source src={video.src} type="video/mp4" />
+                                </video>
+                            </motion.div>
+                            
+                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 pointer-events-none" />
 
                             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                                 <div className="w-16 h-16 rounded-full bg-[#E50914]/90 flex items-center justify-center shadow-[0_0_30px_rgba(229,9,20,0.4)] transform scale-90 group-hover:scale-100 transition-transform duration-300">

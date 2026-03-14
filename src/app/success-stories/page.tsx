@@ -1,7 +1,7 @@
 import { AnimatedSuccessStories } from "@/components/success-stories/AnimatedSuccessStories";
 import { SuccessStoriesCarousel } from "@/components/shared/SuccessStoriesCarousel";
 import { SuccessVideoShowcase } from "@/components/success-stories/SuccessVideoShowcase";
-import { HomeVideoShowcase } from "@/components/home/HomeVideoShowcase";
+import { SuccessVideoWall } from "@/components/success-stories/SuccessVideoWall";
 
 export default function SuccessStoriesPage() {
   return (
@@ -17,9 +17,9 @@ export default function SuccessStoriesPage() {
         <SuccessStoriesCarousel hideHero={true} />
       </div>
 
-      {/* New Video Masonry Section */}
+      {/* New Video Wall Section */}
       <div className="pb-20">
-        <HomeVideoShowcase />
+        <SuccessVideoWall />
       </div>
     </div>
   );
