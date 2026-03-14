@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { motion, type Variants } from "framer-motion";
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 export function HeroSection() {
   const containerVariants: Variants = {
@@ -32,7 +32,7 @@ export function HeroSection() {
     >
       <motion.div variants={itemVariants} className="mb-4">
         <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-sm font-medium text-[var(--muted-foreground)]">
-          <Star className="h-4 w-4" />
+          <Sparkles className="h-4 w-4" />
           New Features Available
         </span>
       </motion.div>
