@@ -2,7 +2,7 @@
 "use client";
 
 
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import Shuffle from '../Shuffle';
 import { Button, type ButtonProps } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -50,7 +50,7 @@ const itemVariants = {
         opacity: 1,
         y: 0,
         scale: 1,
-        transition: { duration: 0.85, ease: "easeOut" },
+        transition: { duration: 0.85, ease: "easeOut" as const },
     },
 };
 
