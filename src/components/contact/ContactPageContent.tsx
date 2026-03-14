@@ -111,7 +111,7 @@ function ContactForm() {
             animate={{ opacity: 1, y: 0 }}
             className="font-bebas-neue text-5xl md:text-7xl tracking-wide uppercase mb-4"
           >
-            Get In <span className="text-[#E50914]">Touch</span>
+            Get In <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff0000] via-[#E50914] to-[#8b0000]">Touch</span>
           </motion.h1>
           <div className="w-24 h-1 bg-[#E50914] mx-auto mb-6" />
           <motion.p

@@ -143,7 +143,11 @@ export function CalculatorForm() {
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#E50914] to-transparent" />
 
         <div className="mb-10 text-center mt-6">
-          <h2 className="font-bebas-neue text-4xl md:text-5xl tracking-wide uppercase text-white drop-shadow-md">Unlock Your Body Type</h2>
+          <h2 className="font-bebas-neue text-4xl md:text-5xl tracking-wide uppercase">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff0000] via-[#E50914] to-[#8b0000] drop-shadow-md">
+              Unlock Your Body Type
+            </span>
+          </h2>
           <p className="text-[#B3B3B3] mt-2 font-light">Let's analyze your metrics to craft a hyper-personalized elite diet plan.</p>
         </div>
 

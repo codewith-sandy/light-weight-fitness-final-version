@@ -5,7 +5,7 @@ export default function GalleryPage() {
     <div className="min-h-screen pt-24 pb-12">
       <div className="max-w-7xl mx-auto px-6 mb-12">
         <h1 className="font-bebas-neue text-6xl md:text-8xl tracking-tighter uppercase mb-4">
-          Training <span className="text-[#E50914]">Gallery</span>
+          Training <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff0000] via-[#E50914] to-[#8b0000]">Gallery</span>
         </h1>
         <div className="w-24 h-1 bg-[#E50914] mb-6" />
         <p className="text-[#B3B3B3] max-w-2xl font-light text-lg">

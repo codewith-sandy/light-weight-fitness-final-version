@@ -96,7 +96,7 @@ export function LandingPage() {
         background: '#000',
       }}>
         <MagicRings
-          color="#df0c41"
+          color="#E50914"
           colorTwo="#f8f2f8"
           ringCount={9}
           speed={0.6}

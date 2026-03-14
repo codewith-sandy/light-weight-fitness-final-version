@@ -53,7 +53,11 @@ export function MembershipPlans() {
   return (
     <div className="w-full relative py-12 pb-24">
       <div className="text-center mb-16 px-4">
-        <h2 className="font-bebas-neue text-5xl md:text-6xl tracking-widest uppercase mb-4">Choose Your Path</h2>
+        <h2 className="font-bebas-neue text-5xl md:text-6xl tracking-widest uppercase mb-4">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff0000] via-[#E50914] to-[#8b0000]">
+            Choose Your Path
+          </span>
+        </h2>
         <div className="w-24 h-1 bg-[#E50914] mx-auto mb-6" />
         <p className="text-[#B3B3B3] max-w-2xl mx-auto font-light">Select the level of commitment that matches your ambition.</p>
       </div>

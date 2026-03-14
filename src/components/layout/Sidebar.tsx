@@ -43,7 +43,7 @@ export function Sidebar() {
       {/* Mobile Toggle Button */}
       <button
         onClick={() => setIsMobileOpen(!isMobileOpen)}
-        className="md:hidden fixed top-6 right-6 z-[60] p-2 bg-[#1A1A1A] border border-white/10 rounded-md text-white shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all hover:bg-white/10"
+        className="md:hidden fixed top-6 right-6 z-[90] p-2 bg-[#1A1A1A] border border-white/10 rounded-md text-white shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all hover:bg-white/10"
       >
         {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
@@ -55,7 +55,7 @@ export function Sidebar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="md:hidden fixed inset-0 bg-black/60 z-[45]"
+            className="md:hidden fixed inset-0 bg-black/60 z-[75]"
             onClick={() => setIsMobileOpen(false)}
           />
         )}
@@ -68,7 +68,7 @@ export function Sidebar() {
           width: isDesktopExpanded ? "240px" : "70px",
         }}
         className={cn(
-          "fixed left-0 top-0 h-screen bg-[#1A1A1A] border-r border-white/5 z-50 flex flex-col pt-20 transition-transform duration-300",
+          "fixed left-0 top-0 h-screen bg-[#1A1A1A] border-r border-white/5 z-[80] flex flex-col pt-20 transition-transform duration-300",
           isDesktopExpanded ? "shadow-2xl" : "",
           /* Translate Sidebar off-screen completely on mobile by default */
           "-translate-x-full md:translate-x-0",

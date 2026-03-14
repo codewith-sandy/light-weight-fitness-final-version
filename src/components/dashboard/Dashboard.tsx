@@ -297,7 +297,7 @@ export function Dashboard({ name, age, bmi, category, bmiPrime, ponderalIndex, g
                 The Transformation Loop
               </motion.span>
               <h2 className="font-bebas-neue text-5xl tracking-wider uppercase mb-4">
-                The <span className="text-[#E50914]">Elite Protocol</span>
+                The <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff0000] via-[#E50914] to-[#8b0000]">Elite Protocol</span>
               </h2>
               <div className="h-1 bg-[#E50914] w-24 mx-auto mb-6" />
             </div>

@@ -97,7 +97,7 @@ export function SuccessVideoWall() {
             <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
                 <div>
                     <h3 className="font-bebas-neue text-4xl tracking-tight uppercase mb-2">
-                        Video Wall of <span className="text-[#E50914]">Greatness</span>
+                        Video Wall of <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff0000] via-[#E50914] to-[#8b0000]">Greatness</span>
                     </h3>
                     <p className="text-[#B3B3B3] max-w-xl">
                         Experience the intensity and community through our latest workout and facility videos.
