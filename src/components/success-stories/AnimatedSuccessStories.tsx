@@ -1,8 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { AnimatedTestimonials } from "@/components/ui/animated-testimonials";
 
-const stories = [
+const initialStories = [
     {
         quote: "Incredible progress in strength and endurance. The consistency really paid off! I never thought I could achieve this level of fitness in just 3 months.",
         name: "Muscle Gain Journey",
@@ -39,9 +40,63 @@ const stories = [
         designation: "Transformation 6 • 12 Months",
         src: "/photos/transformation/trans 6.jpg",
     },
+    {
+        quote: "From beginner to lifting heavy. The trainers at Light Weight Fitness know exactly how to guide your journey.",
+        name: "Strength Training",
+        designation: "Transformation 7 • 4 Months",
+        src: "/photos/transformation/trans 7.jpg",
+    },
+    {
+        quote: "Built stamina and endurance I never knew I had. The community here keeps you motivated every single day.",
+        name: "Endurance Champion",
+        designation: "Transformation 8 • 6 Months",
+        src: "/photos/transformation/trans 8.jpg",
+    },
+    {
+        quote: "The best decision I ever made was walking through those doors. My transformation speaks for itself.",
+        name: "Total Transformation",
+        designation: "Transformation 9 • 9 Months",
+        src: "/photos/transformation/trans 9.jpg",
+    },
+    {
+        quote: "Seven months of relentless training and the right nutrition plan completely changed my life. Light Weight Fitness made it possible.",
+        name: "Peak Performance",
+        designation: "Transformation 10 • 7 Months",
+        src: "/photos/transformation/trans 10.jpg",
+    },
 ];
 
 export function AnimatedSuccessStories() {
+    const [stories, setStories] = useState(initialStories);
+
+    useEffect(() => {
+        async function fetchMedia() {
+            try {
+                const response = await fetch("/api/media");
+                const data = await response.json();
+                if (data.photos) {
+                    const dynamicStories = data.photos.map((filename: string) => {
+                        const src = `/photos/transformation/${filename}`;
+                        const existing = initialStories.find(s => s.src === src);
+                        if (existing) return existing;
+                        
+                        // Fallback for new images
+                        return {
+                            quote: "Witness another amazing transformation at Light Weight Fitness. Dedicated training and nutrition leads to real results.",
+                            name: "New Transformation",
+                            designation: `Success Story • ${filename}`,
+                            src: src
+                        };
+                    });
+                    setStories(dynamicStories);
+                }
+            } catch (error) {
+                console.error("Failed to fetch media:", error);
+            }
+        }
+        fetchMedia();
+    }, []);
+
     return (
         <div className="py-20">
             <div className="text-center mb-10">

@@ -33,7 +33,7 @@ export function BranchShowcase() {
     <div className="w-full relative py-12">
       <div className="text-center mb-16 px-4">
         <h2 className="font-bebas-neue text-5xl md:text-6xl tracking-widest uppercase mb-4">Elite Training Facilities</h2>
-        <div className="w-24 h-1 bg-[#E50914] mx-auto mb-6" />
+        <div className="w-24 h-1 bg-[#df0c41] mx-auto mb-6" />
         <p className="text-[#B3B3B3] max-w-2xl mx-auto font-light">Experience state-of-the-art equipment and an uncompromising environment designed to breed success.</p>
       </div>
 
@@ -46,11 +46,11 @@ export function BranchShowcase() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay: idx * 0.2 }}
-            className="group relative bg-[#1A1A1A] border border-white/10 rounded-2xl overflow-hidden hover:border-[#E50914]/50 transition-all duration-300"
+            className="group relative bg-[#f8f2f8] border border-[#df0c41]/20 rounded-2xl overflow-hidden hover:border-[#df0c41]/50 transition-all duration-300"
           >
             {/* Video Container */}
             <div
-              className="relative h-[300px] md:h-[400px] w-full bg-black overflow-hidden cursor-pointer"
+              className="relative h-[300px] md:h-[400px] w-full bg-[#f8f2f8] overflow-hidden cursor-pointer"
               onClick={() => setActiveVideo(branch.videoUrl)}
             >
               <video
@@ -63,17 +63,17 @@ export function BranchShowcase() {
                 <source src={branch.videoUrl} type="video/mp4" />
               </video>
 
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-transparent to-transparent opacity-90 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#df0c41] via-transparent to-transparent opacity-90 pointer-events-none" />
 
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
-                <div className="w-16 h-16 bg-[#E50914]/80 backdrop-blur-sm rounded-full flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
-                  <PlayCircle className="w-8 h-8 text-white ml-1" />
+                <div className="w-16 h-16 bg-[#df0c41]/80 backdrop-blur-sm rounded-full flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+                  <PlayCircle className="w-8 h-8 text-[#f8f2f8] ml-1" />
                 </div>
               </div>
 
               <div className="absolute bottom-4 left-4 z-20 pointer-events-none">
-                <span className="bg-black/60 backdrop-blur-md border border-white/20 text-white px-3 py-1.5 text-[10px] uppercase tracking-widest rounded-full font-bold flex items-center gap-2 drop-shadow-lg shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-                  <PlayCircle className="w-4 h-4 text-[#E50914]" /> Play Preview
+                <span className="bg-[#df0c41]/10 backdrop-blur-md border border-[#df0c41]/20 text-[#df0c41] px-3 py-1.5 text-[10px] uppercase tracking-widest rounded-full font-bold flex items-center gap-2 drop-shadow-lg shadow-[0_0_15px_rgba(223,12,65,0.15)]">
+                  <PlayCircle className="w-4 h-4 text-[#df0c41]" /> Play Preview
                 </span>
               </div>
             </div>
@@ -85,27 +85,27 @@ export function BranchShowcase() {
                 target="_blank"
                 rel="noopener noreferrer"
                 title="View on Google Maps"
-                className="absolute top-0 right-8 -translate-y-1/2 p-4 bg-[#0F0F0F] border border-white/10 rounded-full group-hover:bg-[#E50914] transition-colors duration-300 block"
+                className="absolute top-0 right-8 -translate-y-1/2 p-4 bg-[#f8f2f8] border border-[#df0c41]/20 rounded-full group-hover:bg-[#df0c41] transition-colors duration-300 block"
               >
-                <MapPin className="w-6 h-6 text-[#B3B3B3] group-hover:text-black transition-colors" />
+                <MapPin className="w-6 h-6 text-[#df0c41] group-hover:text-[#f8f2f8] transition-colors" />
               </a>
 
               {branch.tag && (
-                <div className="inline-block px-3 py-1 mb-4 rounded border border-[#E50914]/30 bg-[#E50914]/10 text-[#E50914] text-[10px] uppercase tracking-widest font-bold">
+                <div className="inline-block px-3 py-1 mb-4 rounded border border-[#df0c41]/30 bg-[#df0c41]/10 text-[#df0c41] text-[10px] uppercase tracking-widest font-bold">
                   {branch.tag}
                 </div>
               )}
 
               <h3 className="font-bebas-neue text-4xl tracking-wide uppercase mb-3">{branch.name}</h3>
-              <p className="text-[#E50914] text-[13px] uppercase tracking-widest font-semibold mb-4">{branch.highlight}</p>
+              <p className="text-[#df0c41] text-[13px] uppercase tracking-widest font-semibold mb-4">{branch.highlight}</p>
               <Link href="/gallery">
-                <button className="flex items-center gap-2 text-white font-semibold uppercase tracking-wider text-sm group/btn">
-                  View Gallery <ArrowRight className="w-4 h-4 text-[#E50914] group-hover/btn:translate-x-1 transition-transform" />
+                <button className="flex items-center gap-2 text-[#df0c41] font-semibold uppercase tracking-wider text-sm group/btn">
+                  View Gallery <ArrowRight className="w-4 h-4 text-[#df0c41] group-hover/btn:translate-x-1 transition-transform" />
                 </button>
               </Link>
             </div>
 
-            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#E50914] to-transparent scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500" />
+            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#df0c41] to-transparent scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500" />
           </motion.div>
         ))}
 

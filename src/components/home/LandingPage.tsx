@@ -2,6 +2,9 @@
 
 import { Dumbbell, Trophy, ArrowRight } from "lucide-react";
 import HeroSection from "@/components/ui/hero-section-9";
+import MagicRings from "../MagicRings";
+import { SuccessStoriesMasonry } from "./SuccessStoriesMasonry";
+import { HomeVideoShowcase } from "./HomeVideoShowcase";
 
 
 export function LandingPage() {
@@ -20,7 +23,7 @@ export function LandingPage() {
         Discover Your
         <span className="text-transparent bg-clip-text bg-gradient-to-br from-[#E50914] via-[#ff2a2a] to-[#8a0000]">
           Strongest Self
-          </span>
+        </span>
       </>
     ),
     subtitle: "Transform your body with elite equipment, expert trainers, and the most supportive fitness community in New Vellanur.",
@@ -75,25 +78,46 @@ export function LandingPage() {
     images: [
       "/videos/branch1.mp4",
       "/videos/branch2.mp4",
-      "/videos/gym-homepage.mp4",
+      "/videos/gym-owner-video.mp4",
     ],
   };
 
   return (
     <div className="relative w-full overflow-hidden">
-      {/* Background Video - Fixed to Viewport format to prevent borders on scroll */}
-      <div className="fixed inset-0 w-full h-full z-0 pointer-events-none flex items-center justify-center bg-black">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute top-1/2 left-1/2 w-[80vmax] h-[110vmax] max-w-none object-cover -translate-x-1/2 -translate-y-1/2 -rotate-90 opacity-65 scale-90 "
-        >
-          <source src="/videos/gym-intro.mp4" type="video/mp4" />
-        </video>
-        {/* Smooth Dark Gradient Filter Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0F0F0F]/40 to-[#0F0F0F]/80 z-[1]" />
+      {/* MagicRings Background */}
+      {/* Fullscreen MagicRings background */}
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        width: '100vw',
+        height: '100vh',
+        zIndex: 0,
+        pointerEvents: 'none',
+        background: '#000',
+      }}>
+        <MagicRings
+          color="#df0c41"
+          colorTwo="#f8f2f8"
+          ringCount={9}
+          speed={0.6}
+          attenuation={10}
+          lineThickness={2}
+          baseRadius={0.19}
+          radiusStep={0.13}
+          scaleRate={0.12}
+          opacity={1}
+          blur={0}
+          noiseAmount={0.1}
+          rotation={0}
+          ringGap={1.3}
+          fadeIn={0.7}
+          fadeOut={0.5}
+          followMouse={false}
+          mouseInfluence={0.2}
+          hoverScale={1.35}
+          parallax={0.05}
+          clickBurst={false}
+        />
       </div>
 
       <div className="relative z-10 w-full min-h-screen">
@@ -104,8 +128,10 @@ export function LandingPage() {
           actions={heroData.actions}
           stats={heroData.stats}
           images={heroData.images}
-          className="bg-transparent" // Important: Let video show through
+          className="bg-transparent"
         />
+        <SuccessStoriesMasonry />
+        <HomeVideoShowcase />
       </div>
     </div>
   );

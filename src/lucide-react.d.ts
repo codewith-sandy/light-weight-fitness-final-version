@@ -1,12 +1,12 @@
 declare module "lucide-react" {
   import { FC, SVGProps } from "react";
-  
+
   export interface LucideProps extends SVGProps<SVGSVGElement> {
     size?: string | number;
     absoluteStrokeWidth?: boolean;
     color?: string;
   }
-  
+
   export type Icon = FC<LucideProps>;
 
   export const Home: Icon;
@@ -41,4 +41,7 @@ declare module "lucide-react" {
   export const Ruler: Icon;
   export const Scale: Icon;
   export const MessageSquare: Icon;
+  export const Play: Icon;
+  export const Volume2: Icon;
+  export const VolumeX: Icon;
 }

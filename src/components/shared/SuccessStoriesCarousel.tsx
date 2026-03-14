@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
-// Actual Transformation Data
-const stories = [
+// Initial Transformation Data
+const initialStories = [
   {
     id: 1,
     name: "Transformation 1",
@@ -43,7 +43,7 @@ const stories = [
     name: "Transformation 5",
     duration: "3 Months",
     quote: "Hard work pays off. The program was challenging but rewarding.",
-    image: "/photos/transformation/trans 5.jpg", // Added .jpg extension
+    image: "/photos/transformation/trans 5.jpg",
     category: "General Fitness",
   },
   {
@@ -51,7 +51,7 @@ const stories = [
     name: "Transformation 6",
     duration: "12 Months",
     quote: "A year of dedication turned into the best shape of my life.",
-    image: "/photos/transformation/trans 6.jpg", // Fixed typo tans -> trans
+    image: "/photos/transformation/trans 6.jpg",
     category: "Athlete Prep",
   },
   {
@@ -81,7 +81,37 @@ const stories = [
 ];
 
 export function SuccessStoriesCarousel({ hideHero = false }: { hideHero?: boolean }) {
+  const [stories, setStories] = useState(initialStories);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    async function fetchMedia() {
+      try {
+        const response = await fetch("/api/media");
+        const data = await response.json();
+        if (data.photos) {
+          const dynamicStories = data.photos.map((filename: string, index: number) => {
+            const imagePath = `/photos/transformation/${filename}`;
+            const existing = initialStories.find(s => s.image === imagePath);
+            if (existing) return existing;
+            
+            return {
+              id: 100 + index,
+              name: `Transformation ${10 + index}`,
+              duration: "In Progress",
+              quote: "A testament to hard work and consistency at Light Weight Fitness.",
+              image: imagePath,
+              category: "General Fitness",
+            };
+          });
+          setStories(dynamicStories);
+        }
+      } catch (error) {
+        console.error("Failed to fetch media:", error);
+      }
+    }
+    fetchMedia();
+  }, []);
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev + 1) % stories.length);
@@ -209,7 +239,7 @@ export function SuccessStoriesCarousel({ hideHero = false }: { hideHero?: boolea
             >
               <div className="aspect-[4/5] relative">
                 <motion.div
-                  className="absolute inset-0 bg-cover bg-center grayscale md:grayscale"
+                  className="absolute inset-0 bg-cover bg-center md:grayscale"
                   style={{ backgroundImage: `url('${item.image}')` }}
                   whileHover={{ scale: 1.1, filter: "grayscale(0%)" }}
                   whileTap={{ scale: 1.1, filter: "grayscale(0%)" }}

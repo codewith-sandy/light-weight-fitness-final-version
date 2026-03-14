@@ -25,7 +25,7 @@ export function CallToAction() {
           >
             <h2 className="font-bebas-neue text-5xl sm:text-6xl md:text-8xl tracking-tight uppercase leading-none mb-6">
               Start Today. <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E50914] to-white">No Excuses.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#df0c41] to-[#f8f2f8]">No Excuses.</span>
             </h2>
 
             <p className="text-lg md:text-xl text-[#B3B3B3] mb-10 max-w-2xl mx-auto font-light">
@@ -37,7 +37,7 @@ export function CallToAction() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-full sm:w-auto flex items-center justify-center gap-3 bg-[#E50914] text-white hover:bg-[#b80710] px-8 py-4 rounded font-bold text-[15px] tracking-wide uppercase transition-all shadow-[0_0_20px_rgba(229,9,20,0.3)]"
+                  className="w-full sm:w-auto flex items-center justify-center gap-3 bg-[#df0c41] text-[#f8f2f8] hover:bg-[#b80710] px-8 py-4 rounded font-bold text-[15px] tracking-wide uppercase transition-all shadow-[0_0_20px_rgba(223,12,65,0.15)]"
                 >
                   Join Now
                   <ArrowRight className="w-5 h-5" />
@@ -48,7 +48,7 @@ export function CallToAction() {
                 href="tel:+918668163718"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-full sm:w-auto flex items-center justify-center gap-3 bg-white/5 border border-white/20 text-white hover:bg-white hover:text-black px-8 py-4 rounded font-bold text-[15px] tracking-wide uppercase transition-all"
+                className="w-full sm:w-auto flex items-center justify-center gap-3 bg-[#f8f2f8]/80 border border-[#df0c41]/20 text-[#df0c41] hover:bg-[#df0c41] hover:text-[#f8f2f8] px-8 py-4 rounded font-bold text-[15px] tracking-wide uppercase transition-all"
               >
                 <PhoneCall className="w-5 h-5" />
                 086681 63718

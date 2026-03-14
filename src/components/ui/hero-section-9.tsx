@@ -1,4 +1,6 @@
+
 "use client";
+import { ArrowRight } from "lucide-react";
 
 import { motion } from 'framer-motion';
 import Shuffle from '../Shuffle';
@@ -35,16 +37,20 @@ const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
-        transition: { staggerChildren: 0.2 },
+        transition: {
+            staggerChildren: 0.15,
+            delayChildren: 0.1,
+        },
     },
 };
 
 const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 60, scale: 0.92 },
     visible: {
         opacity: 1,
         y: 0,
-        transition: { duration: 0.5 },
+        scale: 1,
+        transition: { duration: 0.85, ease: "backOut" },
     },
 };
 
@@ -132,7 +138,7 @@ const HeroSection = ({ badge, title, subtitle, actions, stats, images, className
                             tag="span"
                             loop={true}
                             loopDelay={1}
-                            style={{ color: '#f8f8f8', marginLeft: '-3rem' }}
+                            style={{ color: '#f8f8f8' }}
                             onShuffleComplete={() => {}}
                             colorFrom="#f8f8f8"
                             colorTo="#f8f8f8"
@@ -144,10 +150,10 @@ const HeroSection = ({ badge, title, subtitle, actions, stats, images, className
                                 tag="span"
                                 loop={true}
                                 loopDelay={1}
-                                style={{ color: '#ff6666', marginLeft: '3rem' }}
+                                style={{ color: '#ff2a2a' }}
                                 onShuffleComplete={() => {}}
-                                colorFrom="#ff6666"
-                                colorTo="#ff6666"
+                                colorFrom="#ff2a2a"
+                                colorTo="#ff2a2a"
                             />
                         )}
                     </motion.h1>

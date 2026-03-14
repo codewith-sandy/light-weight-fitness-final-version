@@ -21,9 +21,26 @@ export default function BounceCards({
 }) {
   const containerRef = useRef(null);
   useEffect(() => {
-    const ctx = gsap.context(() => {
+    const q = gsap.utils.selector(containerRef);
+    const cards = q('.card');
+    // Use different animation for mobile (stacked) vs desktop (overlapping)
+    const isMobile = window.matchMedia('(max-width: 600px)').matches;
+    if (isMobile) {
       gsap.fromTo(
-        '.card',
+        cards,
+        { scale: 0.85, opacity: 0, y: 40 },
+        {
+          scale: 1,
+          opacity: 1,
+          y: 0,
+          stagger: 0.08,
+          ease: 'power2.out',
+          delay: animationDelay
+        }
+      );
+    } else {
+      gsap.fromTo(
+        cards,
         { scale: 0, opacity: 0, y: 40 },
         {
           scale: 1,
@@ -34,9 +51,11 @@ export default function BounceCards({
           delay: animationDelay
         }
       );
-    }, containerRef);
-    return () => ctx.revert();
-  }, [animationStagger, easeType, animationDelay]);
+    }
+    return () => {
+      gsap.killTweensOf(cards);
+    };
+  }, [animationStagger, easeType, animationDelay, images]);
 
   const getNoRotationTransform = (transformStr: string) => {
     const hasRotate = /rotate\([\s\S]*?\)/.test(transformStr);
@@ -137,11 +156,14 @@ export default function BounceCards({
             borderRadius: 20,
             background: '#18181b',
             transition: 'transform 0.3s cubic-bezier(.25,.8,.25,1), box-shadow 0.3s',
+            fontSize: '1rem', // default text size
           }}
           onMouseEnter={() => pushSiblings(idx)}
           onMouseLeave={resetSiblings}
         >
           <img className="image rounded-lg" src={src} alt={`card-${idx}`} style={{objectFit:'cover', width:'100%', height:'100%'}} />
+          {/* Example text, adjust as needed */}
+          <div className="card-text">Card {idx + 1}</div>
         </div>
       ))}
     </div>
